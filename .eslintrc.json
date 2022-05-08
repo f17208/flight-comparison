@@ -1,0 +1,92 @@
+{
+    "env": {
+      "browser": true,
+      "es2021": true
+    },
+    "extends": [
+      "plugin:react/recommended",
+      "airbnb",
+      "airbnb-typescript"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "project": "./tsconfig.json",
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
+    "plugins": [
+      "react",
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "import/no-unresolved": "off",
+      "import/no-cycle": "off",
+      "import/extensions": "off",
+      "react/react-in-jsx-scope": "off",
+      "@typescript-eslint/indent": [
+        "error", 
+        2, 
+        {
+          "ignoredNodes": [
+            "TSTypeParameterInstantiation",
+            "SwitchCase"
+          ]
+        }
+      ],
+      "react/jsx-filename-extension": [
+        2,
+        {
+          "extensions": [
+            ".js",
+            ".jsx",
+            ".ts",
+            ".tsx"
+          ]
+        }
+      ],
+      "object-curly-newline": "off",
+      "no-param-reassign": 1,
+      "arrow-parens": "off",
+      "react/jsx-one-expression-per-line": "off",
+      "react/function-component-definition": "off",
+      "arrow-body-style": "off",
+      "react/jsx-wrap-multilines": "off",
+      "jsx-a11y/label-has-associated-control": "off",
+      "react/jsx-closing-tag-location": "off",
+      "react/require-default-props": "off",
+      "react/jsx-props-no-spreading": "off",
+      "import/prefer-default-export": "off",
+      "no-shadow": "off",
+      "no-unused-vars": "warn",
+      "react/no-array-index-key": "off",
+      "jsx-a11y/control-has-associated-label": "off",
+      "no-plusplus": "off",
+      "no-console": "off",
+      "no-alert": "off",
+      "no-trailing-spaces": "warn"
+    },
+    "overrides": [
+      {
+        "files": [
+          "src/**/*.slice.ts"
+        ],
+        "rules": {
+          "no-param-reassign": "off"
+        }
+      },
+      {
+        "files": [
+          "src/**/*.test.{ts,tsx}"
+        ],
+        "rules": {
+          "no-undef": "off"
+        }
+      }
+    ],
+    "globals": {
+      "JSX": true
+    }
+}
