@@ -12,17 +12,14 @@ function getTypographyClassName(variant: TypographyProps['variant']) {
     case 'h1': return `
       font-bold text-5xl
       mt-0 mb-2
-      text-primary
     `;
     case 'h2': return `
       font-bold text-4xl
       mt-0 mb-2
-      text-primary
     `;
     case 'h3': return `
       font-bold text-3xl
       mt-0 mb-2
-      text-primary
     `;
     case 'h4': return `
       font-medium text-xl
