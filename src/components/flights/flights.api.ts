@@ -1,4 +1,4 @@
-import { fetchJSONEndpoint } from '../utils/api';
+import { fetchJSONEndpoint } from '../../utils/api';
 
 export type Flight = {
   id: number;

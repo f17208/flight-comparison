@@ -65,11 +65,11 @@ export const Navbar: FC<NavbarProps> = () => {
                 Airports
               </Link>
             </li>
-            {/* <li>
+            <li>
               <Link to="airlines" className={customNavbarLinkClasses}>
                 Airlines
               </Link>
-            </li> */}
+            </li>
           </ul>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { getFlights } from '../../api/flights';
+import { getFlights } from './flights.api';
 import { setFlights, setLoading } from './flights.slice';
 
 export const sagaActions = {
