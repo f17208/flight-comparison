@@ -16,6 +16,7 @@ export function Airlines() {
     dispatch({ type: sagaActions.FETCH_ALL_AIRLINES });
   }, [dispatch]);
 
+  // TODO handle loading
   return <PageSection className="p-8">
     <div>
       <Typography variant="h3">
