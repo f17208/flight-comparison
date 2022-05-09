@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { useDebounce } from 'react-use';
 
+import { useEffect, useMemo } from 'react';
 import { BackIcon } from '../common/icons';
 import { PageSection } from '../common/layout/PageSection';
 import { Typography } from '../common/typography/Typography';
@@ -9,19 +10,19 @@ import { Typography } from '../common/typography/Typography';
 import { sagaActions as flightsSagaActions } from './flights.saga';
 import { sagaActions as airportsSagaActions } from '../airports/airports.saga';
 import { sagaActions as airlinesSagaActions } from '../airlines/airlines.saga';
-import {
-  airlinesSelector,
-  loadingSelector as airlinesLoadingSelector,
-} from '../airlines/airlines.slice';
+
 import {
   airportsSelector,
   loadingSelector as airportsLoadingSelector,
+  setArrivalAirport,
+  setDepartureAirport,
 } from '../airports/airports.slice';
 
 import {
   flightsSelector,
   loadingSelector as flightsLoadingSelector,
 } from './flights.slice';
+import { calculateAlternativePaths } from '../../utils/flights';
 
 export function SearchFlights() {
   const dispatch = useDispatch();
@@ -50,21 +51,32 @@ export function SearchFlights() {
   );
 
   const allAirports = useSelector(airportsSelector);
-  const allAirlines = useSelector(airlinesSelector);
   const flights = useSelector(flightsSelector);
 
   const airportsLoading = useSelector(airportsLoadingSelector);
-  const airlinesLoading = useSelector(airlinesLoadingSelector);
   const flightsLoading = useSelector(flightsLoadingSelector);
 
-  const departureAirport = allAirports.find(a => a.codeIata === departureCode);
-  const arrivalAirport = allAirports.find(a => a.codeIata === arrivalCode);
+  const departureAirport = allAirports.find(a => a.codeIata === departureCode) || null;
+  const arrivalAirport = allAirports.find(a => a.codeIata === arrivalCode) || null;
+
+  // this is just to keep state consistent between page reloads
+  useEffect(() => {
+    dispatch(setArrivalAirport(arrivalAirport));
+  }, [dispatch, arrivalAirport]);
+
+  useEffect(() => {
+    dispatch(setDepartureAirport(departureAirport));
+  }, [dispatch, arrivalAirport]);
 
   const loading = airportsLoading
-   || airlinesLoading
    || flightsLoading;
 
-  console.log('loading', loading, allAirlines, flights);
+  const flightsPaths = useMemo(() => {
+    if (!loading && departureAirport && arrivalAirport && flights.length) {
+      return calculateAlternativePaths(departureAirport, arrivalAirport, flights);
+    }
+    return [];
+  }, [flights, loading, arrivalAirport, departureAirport]);
 
   return <PageSection>
     <div className="flex flex-col space-y-2">
@@ -96,6 +108,9 @@ export function SearchFlights() {
         </Link>
       </Typography>
 
+      <pre>
+        {JSON.stringify(flightsPaths, null, 2)}
+      </pre>
     </div>
   </PageSection>;
 }
