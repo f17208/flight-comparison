@@ -63,12 +63,12 @@ export const Navbar: FC<NavbarProps> = () => {
               md:text-sm md:font-medium
             "
           >
-            <li>
+            <li className="w-full">
               <Link to="airports" className={customNavbarLinkClasses}>
                 Airports
               </Link>
             </li>
-            <li>
+            <li className="w-full">
               <Link to="airlines" className={customNavbarLinkClasses}>
                 Airlines
               </Link>

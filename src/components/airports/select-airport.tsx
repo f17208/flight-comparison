@@ -58,10 +58,10 @@ export const SelectAirport: FC<SelectAirportProps> = ({
             ? (
               <AirportItem
                 airport={selectedAirport}
-                className="bg-primary"
+                className="bg-secondary text-white fill-white"
                 endIcon={(
                   <ClearIcon
-                    className="h-5 w-fit fill-gray-500 hover:cursor-pointer"
+                    className="h-5 w-fit fill-white hover:cursor-pointer"
                     onClick={() => onSelect(null, false)}
                   />
                 )}

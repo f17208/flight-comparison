@@ -93,7 +93,7 @@ export const Dialog: FC<DialogProps> = ({
             </div>
 
             {/* Body */}
-            <div className="relative p-6 flex-auto max-h-three-quarters overflow-auto">
+            <div className="relative p-6 flex-auto max-h-3/4-vh overflow-auto">
               {body}
             </div>
 
