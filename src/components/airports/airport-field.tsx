@@ -45,7 +45,7 @@ export const AirportField: FC<AirportFieldProps> = ({
           ${inputClassName}
         `}
         type="text"
-        value={value?.codeIata}
+        value={value?.codeIata || ''}
         {...inputProps}
       />
     </div>

@@ -4,7 +4,7 @@ interface TypographyProps extends DetailedHTMLProps<
   HTMLAttributes<HTMLHeadingElement | HTMLParagraphElement>,
   HTMLParagraphElement | HTMLHeadingElement
 > {
-  variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'p';
+  variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'p';
 }
 
 function getTypographyClassName(variant: TypographyProps['variant']) {
@@ -23,6 +23,10 @@ function getTypographyClassName(variant: TypographyProps['variant']) {
     `;
     case 'h4': return `
       font-medium text-xl
+      leading-tight
+    `;
+    case 'h5': return `
+      font-medium text-lg
       leading-tight
     `;
     default: return `

@@ -1,144 +1,101 @@
-import { useCallback, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { Airport } from '../airports/airports.api';
-import {
-  airportsSelector,
-  arrivalAirportSelector,
-  departureAirportSelector,
-  loadingSelector as airportsLoadingSelector,
-  setArrivalAirport,
-  setDepartureAirport,
-} from '../airports/airports.slice';
+import { Link, useParams } from 'react-router-dom';
+import { useDebounce } from 'react-use';
 
-import { SelectAirportDialog } from '../airports/select-airport';
-import { useSelectAirportDialog } from '../airports/select-airport.hooks';
-import { Button } from '../common/button/Button';
+import { BackIcon } from '../common/icons';
 import { PageSection } from '../common/layout/PageSection';
 import { Typography } from '../common/typography/Typography';
+
+import { sagaActions as flightsSagaActions } from './flights.saga';
 import { sagaActions as airportsSagaActions } from '../airports/airports.saga';
-import { ChevronRightIcon } from '../common/icons';
-import { AirportField } from '../airports/airport-field';
+import { sagaActions as airlinesSagaActions } from '../airlines/airlines.saga';
+import {
+  airlinesSelector,
+  loadingSelector as airlinesLoadingSelector,
+} from '../airlines/airlines.slice';
+import {
+  airportsSelector,
+  loadingSelector as airportsLoadingSelector,
+} from '../airports/airports.slice';
+
+import {
+  flightsSelector,
+  loadingSelector as flightsLoadingSelector,
+} from './flights.slice';
 
 export function SearchFlights() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { departureCode, arrivalCode } = useParams();
+
+  // we're using debounce to avoid duplicate requests
+  // TODO: investigate why hook dependencies were updated twice
+  useDebounce(
+    () => {
+      dispatch({
+        type: airportsSagaActions.FETCH_ALL_AIRPORTS,
+      });
+      dispatch({
+        type: airlinesSagaActions.FETCH_ALL_AIRLINES,
+      });
+      dispatch({
+        type: flightsSagaActions.FETCH_SEARCH_FLIGHTS,
+        payload: {
+          departureCode,
+          arrivalCode,
+        },
+      });
+    },
+    100,
+    [departureCode, arrivalCode],
+  );
 
   const allAirports = useSelector(airportsSelector);
+  const allAirlines = useSelector(airlinesSelector);
+  const flights = useSelector(flightsSelector);
 
-  const allAirportsLoading = useSelector(airportsLoadingSelector);
-  const departureAirport = useSelector(departureAirportSelector);
-  const arrivalAirport = useSelector(arrivalAirportSelector);
+  const airportsLoading = useSelector(airportsLoadingSelector);
+  const airlinesLoading = useSelector(airlinesLoadingSelector);
+  const flightsLoading = useSelector(flightsLoadingSelector);
 
-  const availableAirports = useMemo(() => {
-    return allAirports.filter(airport => {
-      return airport.id !== departureAirport?.id
-        && airport.id !== arrivalAirport?.id;
-    });
-  }, [allAirports, arrivalAirport, departureAirport]);
+  const departureAirport = allAirports.find(a => a.codeIata === departureCode);
+  const arrivalAirport = allAirports.find(a => a.codeIata === arrivalCode);
 
-  const onSetDepartureAirport = useCallback((airport: Airport | null) => {
-    dispatch(setDepartureAirport(airport));
-  }, [dispatch]);
+  const loading = airportsLoading
+   || airlinesLoading
+   || flightsLoading;
 
-  const onSetArrivalAirport = useCallback((airport: Airport | null) => {
-    dispatch(setArrivalAirport(airport));
-  }, [dispatch]);
-
-  const departureDialog = useSelectAirportDialog(departureAirport, onSetDepartureAirport);
-  const arrivalDialog = useSelectAirportDialog(arrivalAirport, onSetArrivalAirport);
-
-  /**
-   * Load all airports
-   * In order to select the departure and arrival airports, they must be loaded.
-   * We do this
-   */
-  useEffect(() => {
-    dispatch({ type: airportsSagaActions.FETCH_ALL_AIRPORTS });
-  }, [dispatch]);
-
-  const goToNextPage = useCallback(() => {
-    if (!departureAirport || !arrivalAirport) {
-      console.error('Missing arrival or departure airport'); // this shouldn't happen btw
-      return;
-    }
-    navigate(`flights/from/${departureAirport.codeIata}/to/${arrivalAirport.codeIata}`);
-  }, [navigate, arrivalAirport, departureAirport]);
-
-  // eslint-disable-next-line
-  const loading = allAirportsLoading; // TODO add loader
+  console.log('loading', loading, allAirlines, flights);
 
   return <PageSection>
     <div className="flex flex-col space-y-2">
+      <Link to="/" className="text-secondary flex items-center space-x-1">
+        <BackIcon className="h-4 fill-secondary w-fit" />
+        <Typography variant="h5">Back</Typography>
+      </Link>
+
       <Typography variant="h3">
         Search Flights
       </Typography>
 
-      <div className="flex flex-col space-y-3">
-        <AirportField
-          label="Departing from"
-          value={departureAirport}
-          inputClassName="w-full"
-          labelClassName="w-1/2 md:w-1/2 lg:w-2/3 min-w-fit"
-          inputProps={{
-            readOnly: true,
-            onClick: () => departureDialog.setIsDialogOpen(true),
-            placeholder: 'Select an airport...',
-          }}
-        />
+      <Typography variant="h4">
+        {' from '}
+        <Link
+          style={{ pointerEvents: departureAirport ? 'inherit' : 'none' }}
+          to={`/airports/${departureAirport?.id}`}
+          className="text-secondary"
+        >
+          {departureCode}
+        </Link>
+        {' to '}
+        <Link
+          style={{ pointerEvents: arrivalAirport ? 'inherit' : 'none' }}
+          to={`/airports/${arrivalAirport?.id}`}
+          className="text-secondary"
+        >
+          {arrivalCode}
+        </Link>
+      </Typography>
 
-        {/* TODO swap airports */}
-
-        <AirportField
-          label="Arriving to"
-          value={arrivalAirport}
-          inputClassName="w-full"
-          labelClassName="w-1/2 md:w-1/2 lg:w-2/3 min-w-fit"
-          inputProps={{
-            readOnly: true,
-            onClick: () => arrivalDialog.setIsDialogOpen(true),
-            placeholder: 'Select an airport...',
-          }}
-        />
-
-        <div className="flex justify-end">
-          <Button
-            variant="contained"
-            color="info"
-            disabled={!arrivalAirport || !departureAirport}
-            className="h-10 w-fit"
-            onClick={goToNextPage}
-          >
-            <Typography variant="h4">Search flights</Typography>
-            <ChevronRightIcon className="h-4 fill-white w-fit" />
-          </Button>
-        </div>
-      </div>
-
-      <SelectAirportDialog
-        onSelect={departureDialog.onSelect}
-        search={departureDialog.search}
-        setSearch={departureDialog.setSearch}
-        options={availableAirports}
-        selectedAirport={departureAirport}
-        dialogProps={{
-          open: departureDialog.isDialogOpen,
-          title: 'Select departure airport',
-          onClose: departureDialog.onCloseDialog,
-        }}
-      />
-      <SelectAirportDialog
-        onSelect={arrivalDialog.onSelect}
-        search={arrivalDialog.search}
-        setSearch={arrivalDialog.setSearch}
-        options={availableAirports}
-        selectedAirport={arrivalAirport}
-        dialogProps={{
-          open: arrivalDialog.isDialogOpen,
-          title: 'Select arrival airport',
-          onClose: arrivalDialog.onCloseDialog,
-        }}
-      />
     </div>
   </PageSection>;
 }
