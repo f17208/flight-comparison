@@ -1,19 +1,19 @@
-import { FC, MouseEvent } from 'react';
+import { FC, MouseEvent, useMemo } from 'react';
+import { CURRENCY_SYMBOL } from '../../utils/constants';
 import { Button } from '../common/button/Button';
+import { ChevronRightIcon } from '../common/icons';
 import { Typography } from '../common/typography/Typography';
 import { Flight } from './flights.api';
 
 export interface FlightPathSummaryItemProps {
   path: Flight[];
   onClick?: (e: MouseEvent<HTMLElement>) => void;
-  className?: string;
   divider?: boolean;
 }
 
 export const FlightPathSummaryItem: FC<FlightPathSummaryItemProps> = ({
   path,
   onClick,
-  className,
   divider,
 }) => {
   // distinct airlines involved
@@ -22,6 +22,10 @@ export const FlightPathSummaryItem: FC<FlightPathSummaryItemProps> = ({
       path.map(flight => flight.airlineId),
     ),
   ).length;
+
+  const totalPrice = useMemo(() => {
+    return path.reduce((tot, b) => tot + b.price, 0);
+  }, [path]);
 
   return (
     <div
@@ -32,21 +36,26 @@ export const FlightPathSummaryItem: FC<FlightPathSummaryItemProps> = ({
         py-2
       `}
     >
-      <div className="flex items-center justify-between">
-        <Typography>
+      <div className="flex flex-col md:flex-row items-center justify-between">
+        <Typography className="text-xl">
           {
             path.length === 1
-              ? 'Single flight'
-              : `${path.length - 1} step-overs`
-          }, {airlinesCount} airlines
+              ? 'Single flight,'
+              : `${path.length - 1} stop-overs,`
+          }{' '}
+          {airlinesCount > 1 ? `${airlinesCount} airlines,` : ''}{' '}
+          from <strong>{totalPrice}{CURRENCY_SYMBOL}</strong>
         </Typography>
-        <Button
-          variant="contained"
-          className={className}
-          onClick={onClick}
-        >
-          see more
-        </Button>
+        <div className="w-full md:w-fit">
+          <Button
+            variant="contained"
+            className="ml-auto bg-green-500 hover:bg-green-600 pr-2"
+            onClick={onClick}
+          >
+            <Typography className="font-extrabold">see more</Typography>
+            <ChevronRightIcon className="fill-white h-6 w-fit" />
+          </Button>
+        </div>
       </div>
     </div>
   );

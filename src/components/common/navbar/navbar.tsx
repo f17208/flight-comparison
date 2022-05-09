@@ -29,7 +29,7 @@ export const Navbar: FC<NavbarProps> = () => {
   return (
     <nav
       className="
-        bg-gray-800
+        bg-neutral
         border-gray-200 px-2 sm:px-4 py-2.5
       "
     >

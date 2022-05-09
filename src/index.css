@@ -783,6 +783,15 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-width: 0px !important;
 }
 
+.border-x-0 {
+  border-left-width: 0px !important;
+  border-right-width: 0px !important;
+}
+
+.border-t-0 {
+  border-top-width: 0px !important;
+}
+
 .border-b {
   border-bottom-width: 1px !important;
 }
@@ -795,6 +804,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-style: solid !important;
 }
 
+.border-gray-500 {
+  --tw-border-opacity: 1 !important;
+  border-color: rgb(107 114 128 / var(--tw-border-opacity)) !important;
+}
+
 .border-red-500 {
   --tw-border-opacity: 1 !important;
   border-color: rgb(239 68 68 / var(--tw-border-opacity)) !important;
@@ -803,11 +817,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .border-primary {
   --tw-border-opacity: 1 !important;
   border-color: rgb(70 235 200 / var(--tw-border-opacity)) !important;
-}
-
-.border-gray-500 {
-  --tw-border-opacity: 1 !important;
-  border-color: rgb(107 114 128 / var(--tw-border-opacity)) !important;
 }
 
 .border-slate-200 {
@@ -854,9 +863,9 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: transparent !important;
 }
 
-.bg-gray-800 {
+.bg-neutral {
   --tw-bg-opacity: 1 !important;
-  background-color: rgb(31 41 55 / var(--tw-bg-opacity)) !important;
+  background-color: rgb(2 22 39 / var(--tw-bg-opacity)) !important;
 }
 
 .fill-gray-500 {
@@ -941,6 +950,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   line-height: 1.75rem !important;
 }
 
+.text-xl {
+  font-size: 1.25rem !important;
+  line-height: 1.75rem !important;
+}
+
 .text-3xl {
   font-size: 1.875rem !important;
   line-height: 2.25rem !important;
@@ -949,11 +963,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-2xl {
   font-size: 1.5rem !important;
   line-height: 2rem !important;
-}
-
-.text-xl {
-  font-size: 1.25rem !important;
-  line-height: 1.75rem !important;
 }
 
 .text-sm {
