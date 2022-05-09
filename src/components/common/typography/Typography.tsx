@@ -4,7 +4,7 @@ interface TypographyProps extends DetailedHTMLProps<
   HTMLAttributes<HTMLHeadingElement | HTMLParagraphElement>,
   HTMLParagraphElement | HTMLHeadingElement
 > {
-  variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'p';
+  variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'subtitle2' | 'subtitle1';
 }
 
 function getTypographyClassName(variant: TypographyProps['variant']) {
@@ -29,6 +29,10 @@ function getTypographyClassName(variant: TypographyProps['variant']) {
       font-medium text-lg
       leading-tight
     `;
+    case 'subtitle2': return `
+      text-md
+      leading-tight
+    `;
     default: return `
       font-light
     `;
@@ -36,13 +40,17 @@ function getTypographyClassName(variant: TypographyProps['variant']) {
 }
 
 export const Typography: FC<TypographyProps> = ({
-  variant = 'p',
+  variant = 'subtitle1',
   children,
   className,
   ...props
 }) => {
+  const variantElement = (['subtitle1', 'subtitle2']).includes(variant)
+    ? 'p'
+    : variant;
+
   return createElement(
-    variant,
+    variantElement,
     {
       ...props,
       className: `${getTypographyClassName(variant)} ${className || ''}`,

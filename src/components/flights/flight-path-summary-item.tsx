@@ -36,23 +36,27 @@ export const FlightPathSummaryItem: FC<FlightPathSummaryItemProps> = ({
         py-2
       `}
     >
-      <div className="flex flex-col md:flex-row items-center justify-between">
-        <Typography className="text-xl">
-          {
-            path.length === 1
-              ? 'Single flight,'
-              : `${path.length - 1} stop-overs,`
-          }{' '}
-          {airlinesCount > 1 ? `${airlinesCount} airlines,` : ''}{' '}
-          from <strong>{totalPrice}{CURRENCY_SYMBOL}</strong>
-        </Typography>
-        <div className="w-full md:w-fit">
+      <div className="flex flex-row items-center justify-between">
+        <div className="flex flex-col">
+          <Typography className="text-xl text-left w-full sm:w-fit">
+            {
+              path.length === 1
+                ? 'Single flight,'
+                : `${path.length - 1} stop-overs,`
+            }{' '}
+            {airlinesCount > 1 ? `${airlinesCount} airlines` : ''}{' '}
+          </Typography>
+          <Typography variant="subtitle2">
+            <strong>{totalPrice}{CURRENCY_SYMBOL}</strong>
+          </Typography>
+        </div>
+        <div>
           <Button
             variant="contained"
-            className="ml-auto bg-green-500 hover:bg-green-600 pr-2"
+            className="ml-auto bg-green-500 hover:bg-green-600 py-2 pr-2 pl-1 sm:pr-2 sm:pl-4"
             onClick={onClick}
           >
-            <Typography className="font-extrabold">see more</Typography>
+            <Typography className="font-extrabold hidden sm:block">see more</Typography>
             <ChevronRightIcon className="fill-white h-6 w-fit" />
           </Button>
         </div>
