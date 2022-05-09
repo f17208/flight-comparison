@@ -42,7 +42,7 @@ export const Typography: FC<TypographyProps> = ({
     variant,
     {
       ...props,
-      className: `${getTypographyClassName(variant)} ${className}`,
+      className: `${getTypographyClassName(variant)} ${className || ''}`,
     },
     children,
   );
