@@ -5,11 +5,16 @@ import { RootState } from '../../app.store';
 export type AirportsState = {
   airports: Airport[];
   loading: boolean;
+
+  departureAirport: Airport | null;
+  arrivalAirport: Airport | null;
 };
 
 const initialState: AirportsState = {
   airports: [],
   loading: false,
+  departureAirport: null,
+  arrivalAirport: null,
 };
 
 export const airportsSlice = createSlice({
@@ -18,6 +23,12 @@ export const airportsSlice = createSlice({
   reducers: {
     setAirports: (state, action: PayloadAction<Airport[]>) => {
       state.airports = action.payload;
+    },
+    setDepartureAirport: (state, action: PayloadAction<Airport | null>) => {
+      state.departureAirport = action.payload;
+    },
+    setArrivalAirport: (state, action: PayloadAction<Airport | null>) => {
+      state.arrivalAirport = action.payload;
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
@@ -32,11 +43,16 @@ export const airportsSlice = createSlice({
 export const {
   setAirports,
   setLoading,
+  setDepartureAirport,
+  setArrivalAirport,
   reset,
 } = airportsSlice.actions;
 
 // selectors
 export const airportsSelector = (state: RootState) => state.Airports.airports;
 export const loadingSelector = (state: RootState) => state.Airports.loading;
+
+export const departureAirportSelector = (state: RootState) => state.Airports.departureAirport;
+export const arrivalAirportSelector = (state: RootState) => state.Airports.arrivalAirport;
 
 export default airportsSlice.reducer;

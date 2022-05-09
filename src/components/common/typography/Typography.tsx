@@ -24,7 +24,6 @@ function getTypographyClassName(variant: TypographyProps['variant']) {
     case 'h4': return `
       font-medium text-xl
       leading-tight
-      text-gray-500
     `;
     default: return `
       font-light

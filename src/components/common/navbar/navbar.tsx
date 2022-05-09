@@ -57,17 +57,18 @@ export const Navbar: FC<NavbarProps> = () => {
         <div className={`w-full md:block md:w-auto ${!isExpanded ? 'hidden' : ''}`}>
           <ul
             className="
-              flex flex-col md:flex-row md:space-x-8 space-y-1
+              flex flex-col md:flex-row items-center
+              md:space-x-8 space-y-1 md:space-y-0
               mt-4 md:mt-0
               md:text-sm md:font-medium
             "
           >
-            <li>
+            <li className="w-full">
               <Link to="airports" className={customNavbarLinkClasses}>
                 Airports
               </Link>
             </li>
-            <li>
+            <li className="w-full">
               <Link to="airlines" className={customNavbarLinkClasses}>
                 Airlines
               </Link>

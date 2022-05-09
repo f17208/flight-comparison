@@ -2,8 +2,10 @@ import { FC, ReactNode, useState } from 'react';
 import { Button, ButtonProps } from '../button/Button';
 import { Typography } from '../typography/Typography';
 
+import './Dialog.css';
+
 export interface DialogProps {
-  open?: boolean;
+  open: boolean;
   onClose: () => void;
   title: string | ReactNode;
   body: ReactNode;
@@ -11,14 +13,14 @@ export interface DialogProps {
 }
 
 export const Dialog: FC<DialogProps> = ({
-  open = false,
+  open,
   onClose,
   title,
   body,
   actions,
 }) => {
   return (
-    <>
+    <div>
       <div
         className={`
           ${open ? '' : 'hidden'}
@@ -91,7 +93,7 @@ export const Dialog: FC<DialogProps> = ({
             </div>
 
             {/* Body */}
-            <div className="relative p-6 flex-auto h-full">
+            <div className="relative p-6 flex-auto max-h-3/4-vh overflow-auto">
               {body}
             </div>
 
@@ -111,17 +113,8 @@ export const Dialog: FC<DialogProps> = ({
           </div>
         </div>
       </div>
-      <div
-        className={`
-          ${open ? '' : 'hidden'}
-          opacity-25
-          fixed
-          inset-0
-          z-40
-          bg-black
-        `}
-      />
-    </>
+      <span className={`${open ? '' : 'hidden'} Dialog-modal`} />
+    </div>
   );
 };
 
