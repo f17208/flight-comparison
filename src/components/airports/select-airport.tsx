@@ -5,10 +5,11 @@ import { Dialog, DialogProps } from '../common/dialog/Dialog';
 import { Input } from '../common/input/Input';
 import { AirportItem, AirportItemProps } from './airport-item';
 import { Airport } from './airports.api';
+import { ClearIcon } from '../common/icons';
 
 export interface SelectAirportProps {
   options: Airport[];
-  onSelect: (airport: Airport | null) => void;
+  onSelect: (airport: Airport | null, closeOnSelect?: boolean) => void;
   selectedAirport: Airport | null;
   search: string;
   setSearch: (search: string) => void | Dispatch<SetStateAction<string>>;
@@ -57,8 +58,13 @@ export const SelectAirport: FC<SelectAirportProps> = ({
             ? (
               <AirportItem
                 airport={selectedAirport}
-                onClick={() => onSelect(null)}
                 className="bg-primary"
+                endIcon={(
+                  <ClearIcon
+                    className="h-5 w-fit fill-gray-500 hover:cursor-pointer"
+                    onClick={() => onSelect(null, false)}
+                  />
+                )}
                 {...selectedAirportProps}
               />
             )

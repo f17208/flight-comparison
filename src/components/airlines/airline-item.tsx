@@ -26,10 +26,10 @@ export const AirlineItem: FC<AirlineItemProps> = ({ airline, onClick, className 
     >
       <AirlineIcon className="h-10 w-auto fill-gray-500 mx-2 fill-inherit" />
       <div className="flex flex-col">
-        <Typography variant="h4" className="text-inherit">
+        <Typography variant="h4" className="text-inherit text-left">
           {airline.name}
         </Typography>
-        <Typography>
+        <Typography className="text-left">
           IATA: {airline.codeIataPrefix || 'n/a'}
         </Typography>
       </div>

@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { AirportItem } from '../airports/airport-item';
 import { Airport } from '../airports/airports.api';
 import {
@@ -24,6 +25,7 @@ import { sagaActions as airlinesSagaActions } from '../airlines/airlines.saga';
 
 export function SearchFlights() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const allAirports = useSelector(airportsSelector);
   const allAirportsLoading = useSelector(airportsLoadingSelector);
@@ -47,6 +49,14 @@ export function SearchFlights() {
     dispatch({ type: airlinesSagaActions.FETCH_ALL_AIRLINES });
   }, [dispatch]);
 
+  const goToNextPage = useCallback(() => {
+    if (!departureAirport || !arrivalAirport) {
+      console.error('Missing arrival or departure airport'); // this shouldn't happen btw
+      return;
+    }
+    navigate(`flights/from/${departureAirport.codeIata}/to/${arrivalAirport.codeIata}`);
+  }, [navigate, arrivalAirport, departureAirport]);
+
   // eslint-disable-next-line
   const loading = allAirportsLoading || allAirlinesLoading;
 
@@ -56,7 +66,12 @@ export function SearchFlights() {
         Search Flights
       </Typography>
 
-      <div className="flex space-x-4">
+      <div
+        className="
+          flex flex-col sm:flex-row
+          space-x-0 space-y-2 sm:space-x-4 sm:space-y-0
+        "
+      >
         <div>
           {
             departureAirport
@@ -72,7 +87,7 @@ export function SearchFlights() {
                   className="h-10"
                   onClick={() => departureDialog.setIsDialogOpen(true)}
                 >
-                  Da dove parti?
+                  Where do you depart from?
                 </Button>
               )
           }
@@ -92,7 +107,7 @@ export function SearchFlights() {
                   className="h-10"
                   onClick={() => arrivalDialog.setIsDialogOpen(true)}
                 >
-                  Dove vai?
+                  Where are you going?
                 </Button>
               )
           }
@@ -121,6 +136,15 @@ export function SearchFlights() {
             onClose: arrivalDialog.onCloseDialog,
           }}
         />
+
+        <Button
+          variant="contained"
+          color="info"
+          disabled={!arrivalAirport || !departureAirport}
+          onClick={goToNextPage}
+        >
+          See flights
+        </Button>
       </div>
     </div>
   </PageSection>;

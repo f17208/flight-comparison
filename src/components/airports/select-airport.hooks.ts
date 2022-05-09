@@ -13,9 +13,9 @@ export const useSelectAirportDialog = (
     setIsDialogOpen(false);
   }, [setIsDialogOpen]);
 
-  const onSelect = useCallback((airport: Airport | null) => {
+  const onSelect = useCallback((airport: Airport | null, closeOnSelect = true) => {
     setSelectedAirport(airport);
-    onCloseDialog();
+    if (closeOnSelect) onCloseDialog();
   }, [setSelectedAirport, onCloseDialog]);
 
   return {
