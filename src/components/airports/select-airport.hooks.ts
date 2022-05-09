@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Airport } from './airports.api';
 
 export const useSelectAirportDialog = (
@@ -8,9 +8,21 @@ export const useSelectAirportDialog = (
   const [search, setSearch] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  // some helper functions just to reduce the amount of repeated code elsewhere
+  const onCloseDialog = useCallback(() => {
+    setIsDialogOpen(false);
+  }, [setIsDialogOpen]);
+
+  const onSelect = useCallback((airport: Airport | null) => {
+    setSelectedAirport(airport);
+    onCloseDialog();
+  }, [setSelectedAirport, onCloseDialog]);
+
   return {
     isDialogOpen,
     setIsDialogOpen,
+    onCloseDialog,
+    onSelect,
     selectedAirport,
     setSelectedAirport,
     search,

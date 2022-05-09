@@ -6,21 +6,23 @@ import { Airline } from './airlines.api';
 export interface AirlineItemProps {
   airline: Airline;
   onClick?: (e: MouseEvent<HTMLElement>) => void;
+  className?: string;
 }
 
-export const AirlineItem: FC<AirlineItemProps> = ({ airline, onClick }) => {
+export const AirlineItem: FC<AirlineItemProps> = ({ airline, onClick, className }) => {
   return (
     <button
       type="button"
       onClick={onClick}
-      className="
+      className={`
         flex items-center
-        py-1 my-1
+        py-1 pr-4
         w-full
         border
         rounded-lg
         hover:bg-secondary hover:text-white hover:fill-white
-      "
+        ${className || ''}
+      `}
     >
       <AirlineIcon className="h-10 w-auto fill-gray-500 mx-2 fill-inherit" />
       <div className="flex flex-col">

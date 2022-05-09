@@ -28,7 +28,7 @@ export function Airports() {
           airports.map((airport) => (
             <li key={airport.id}>
               <Link to={`/airport/${airport.id}`}>
-                <AirportItem airport={airport} />
+                <AirportItem airport={airport} className="my-1" />
               </Link>
             </li>
           ))

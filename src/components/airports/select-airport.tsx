@@ -1,7 +1,9 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { Dispatch, FC, SetStateAction, useMemo } from 'react';
+import levenshtein from 'js-levenshtein';
+
 import { Dialog, DialogProps } from '../common/dialog/Dialog';
 import { Input } from '../common/input/Input';
-import { AirportItem } from './airport-item';
+import { AirportItem, AirportItemProps } from './airport-item';
 import { Airport } from './airports.api';
 
 export interface SelectAirportProps {
@@ -10,6 +12,9 @@ export interface SelectAirportProps {
   selectedAirport: Airport | null;
   search: string;
   setSearch: (search: string) => void | Dispatch<SetStateAction<string>>;
+  selectedAirportProps?: AirportItemProps;
+  getOptionsProps?: (option: Airport, index: number) => Omit<AirportItemProps, 'airport'>;
+  scoreThreshold?: number;
 }
 
 export const SelectAirport: FC<SelectAirportProps> = ({
@@ -18,24 +23,74 @@ export const SelectAirport: FC<SelectAirportProps> = ({
   search,
   setSearch,
   selectedAirport,
+  selectedAirportProps,
+  getOptionsProps,
+  scoreThreshold,
 }) => {
+  const optionsToShow: { airport: Airport; score: number }[] = useMemo(() => {
+    const searchCaseInsensitive = search.toLowerCase();
+    // map options to an array of couples (option, scoreOption)
+    // where scoreOption is the Levenshtein distance between option's codeIata and search
+    const toReturn = options
+      .map(airport => ({
+        airport,
+        score: levenshtein(airport.codeIata.toLowerCase(), searchCaseInsensitive),
+      }))
+      .filter(({ airport, score }) => (
+        airport.id !== selectedAirport?.id
+        && (!scoreThreshold || score < scoreThreshold)
+      ));
+
+    // sort options by levenshtein distance
+    toReturn.sort(({ score: scoreA }, { score: scoreB }) => {
+      return scoreA < scoreB ? -1 : 1;
+    });
+
+    return toReturn;
+  }, [options, scoreThreshold, selectedAirport, search]);
+
   return (
-    <div>
-      {
-        selectedAirport
-          ? <AirportItem airport={selectedAirport} onClick={() => onSelect(null)} />
-          : <Input onChange={e => setSearch(e.target.value)} value={search} />
-      }
-      <hr />
-      <ul>
+    <div className="flex flex-col space-y-2">
+      <div className="w-full mb-1">
         {
-          options.map((airport) => (
-            <li key={airport.id}>
-              <AirportItem airport={airport} onClick={() => onSelect(airport)} />
-            </li>
-          ))
+          selectedAirport
+            ? (
+              <AirportItem
+                airport={selectedAirport}
+                onClick={() => onSelect(null)}
+                className="bg-primary"
+                {...selectedAirportProps}
+              />
+            )
+            : (
+              <Input
+                className="w-full"
+                onChange={e => setSearch(e.target.value)}
+                value={search}
+              />
+            )
         }
-      </ul>
+      </div>
+      <hr />
+      <div>
+        {
+          optionsToShow.map(({ airport }, i) => {
+            return <AirportItem
+              key={airport.id}
+              airport={airport}
+              onClick={() => onSelect(airport)}
+              className="my-1"
+              {
+                ...(
+                  getOptionsProps
+                    ? getOptionsProps(airport, i)
+                    : {}
+                )
+              }
+            />;
+          })
+        }
+      </div>
     </div>
   );
 };

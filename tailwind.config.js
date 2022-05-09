@@ -5,6 +5,9 @@ module.exports = {
   },
   theme: {
     extend: {
+      maxHeight: {
+        'three-quarters': '75vh',
+      },
       colors: {
         primary: '#46EBC8',
         secondary: '#FF0E96',

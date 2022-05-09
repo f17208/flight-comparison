@@ -6,20 +6,28 @@ import {
   airportsSelector,
   arrivalAirportSelector,
   departureAirportSelector,
+  loadingSelector as airportsLoadingSelector,
   setArrivalAirport,
   setDepartureAirport,
 } from '../airports/airports.slice';
+import {
+  loadingSelector as airlinesLoadingSelector,
+} from '../airlines/airlines.slice';
+
 import { SelectAirportDialog } from '../airports/select-airport';
 import { useSelectAirportDialog } from '../airports/select-airport.hooks';
 import { Button } from '../common/button/Button';
 import { PageSection } from '../common/layout/PageSection';
 import { Typography } from '../common/typography/Typography';
-import { sagaActions } from './flights.saga';
+import { sagaActions as airportsSagaActions } from '../airports/airports.saga';
+import { sagaActions as airlinesSagaActions } from '../airlines/airlines.saga';
 
 export function SearchFlights() {
   const dispatch = useDispatch();
 
   const allAirports = useSelector(airportsSelector);
+  const allAirportsLoading = useSelector(airportsLoadingSelector);
+  const allAirlinesLoading = useSelector(airlinesLoadingSelector);
   const departureAirport = useSelector(departureAirportSelector);
   const arrivalAirport = useSelector(arrivalAirportSelector);
 
@@ -35,8 +43,12 @@ export function SearchFlights() {
   const arrivalDialog = useSelectAirportDialog(arrivalAirport, onSetArrivalAirport);
 
   useEffect(() => {
-    dispatch({ type: sagaActions.FETCH_ALL_FLIGHTS });
+    dispatch({ type: airportsSagaActions.FETCH_ALL_AIRPORTS });
+    dispatch({ type: airlinesSagaActions.FETCH_ALL_AIRLINES });
   }, [dispatch]);
+
+  // eslint-disable-next-line
+  const loading = allAirportsLoading || allAirlinesLoading;
 
   return <PageSection>
     <div className="flex flex-col space-y-2">
@@ -48,43 +60,65 @@ export function SearchFlights() {
         <div>
           {
             departureAirport
-              ? <AirportItem airport={departureAirport} />
-              : <Button onClick={() => departureDialog.setIsDialogOpen(true)}>
-                Da dove parti?
-              </Button>
+              ? (
+                <AirportItem
+                  airport={departureAirport}
+                  onClick={() => departureDialog.setIsDialogOpen(true)}
+                />
+              )
+              : (
+                <Button
+                  variant="outlined"
+                  className="h-10"
+                  onClick={() => departureDialog.setIsDialogOpen(true)}
+                >
+                  Da dove parti?
+                </Button>
+              )
           }
         </div>
         <div>
           {
             arrivalAirport
-              ? <AirportItem airport={arrivalAirport} />
-              : <Button onClick={() => arrivalDialog.setIsDialogOpen(true)}>
-                Dove vai?
-              </Button>
+              ? (
+                <AirportItem
+                  airport={arrivalAirport}
+                  onClick={() => arrivalDialog.setIsDialogOpen(true)}
+                />
+              )
+              : (
+                <Button
+                  variant="outlined"
+                  className="h-10"
+                  onClick={() => arrivalDialog.setIsDialogOpen(true)}
+                >
+                  Dove vai?
+                </Button>
+              )
           }
         </div>
         <SelectAirportDialog
-          onSelect={departureDialog.setSelectedAirport}
+          onSelect={departureDialog.onSelect}
           search={departureDialog.search}
           setSearch={departureDialog.setSearch}
           options={allAirports}
           selectedAirport={departureAirport}
           dialogProps={{
             open: departureDialog.isDialogOpen,
-            title: 'Departure Airport', // TODO i18n
-            onClose: () => departureDialog.setIsDialogOpen(false),
+            title: 'Select departure airport', // TODO i18n
+            onClose: departureDialog.onCloseDialog,
           }}
         />
         <SelectAirportDialog
-          onSelect={arrivalDialog.setSelectedAirport}
+          onSelect={arrivalDialog.onSelect}
           search={arrivalDialog.search}
           setSearch={arrivalDialog.setSearch}
           options={allAirports}
           selectedAirport={arrivalAirport}
           dialogProps={{
             open: arrivalDialog.isDialogOpen,
-            title: 'Arrival Airport', // TODO i18n
-            onClose: () => arrivalDialog.setIsDialogOpen(false),
+            title: 'Select arrival airport', // TODO i18n
+            onClose: arrivalDialog.onCloseDialog,
           }}
         />
       </div>

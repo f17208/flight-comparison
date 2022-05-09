@@ -28,7 +28,7 @@ export function Airlines() {
           airlines.map((airline) => (
             <li key={airline.id}>
               <Link to={`/airlines/${airline.id}`}>
-                <AirlineItem airline={airline} />
+                <AirlineItem airline={airline} className="my-1" />
               </Link>
             </li>
           ))
