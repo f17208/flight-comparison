@@ -70,6 +70,7 @@ export function SearchFlights() {
           options={allAirports}
           selectedAirport={departureAirport}
           dialogProps={{
+            open: departureDialog.isDialogOpen,
             title: 'Departure Airport', // TODO i18n
             onClose: () => departureDialog.setIsDialogOpen(false),
           }}
@@ -81,6 +82,7 @@ export function SearchFlights() {
           options={allAirports}
           selectedAirport={arrivalAirport}
           dialogProps={{
+            open: arrivalDialog.isDialogOpen,
             title: 'Arrival Airport', // TODO i18n
             onClose: () => arrivalDialog.setIsDialogOpen(false),
           }}
