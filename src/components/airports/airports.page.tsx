@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { Link } from 'react-router-dom';
 import { sagaActions } from './airports.saga';
 
 import { Typography } from '../common/typography/Typography';
@@ -26,7 +27,9 @@ export function Airports() {
         {
           airports.map((airport) => (
             <li key={airport.id}>
-              <AirportItem airport={airport} />
+              <Link to={`/airport/${airport.id}`}>
+                <AirportItem airport={airport} />
+              </Link>
             </li>
           ))
         }

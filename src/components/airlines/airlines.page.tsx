@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { sagaActions } from './airlines.saga';
 
@@ -26,7 +27,9 @@ export function Airlines() {
         {
           airlines.map((airline) => (
             <li key={airline.id}>
-              <AirlineItem airline={airline} />
+              <Link to={`/airlines/${airline.id}`}>
+                <AirlineItem airline={airline} />
+              </Link>
             </li>
           ))
         }
