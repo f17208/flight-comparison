@@ -70,7 +70,7 @@ export function calculateAlternativePaths(
           }
           return null;
         },
-      ).filter(Boolean)
+      ).filter(Boolean) as Flight[]
     ),
   );
 }

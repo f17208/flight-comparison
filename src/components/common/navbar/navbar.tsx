@@ -7,7 +7,7 @@ const customNavbarLinkClasses = `
   block
   rounded
   py-2 pr-4 pl-3 md:p-0
-  text-white md:text-white md:hover:text-primary
+  text-white md:text-white md:hover:text-primary font-bold
   bg-secondary md:bg-transparent
 `;
 

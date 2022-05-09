@@ -23,6 +23,7 @@ import {
   loadingSelector as flightsLoadingSelector,
 } from './flights.slice';
 import { calculateAlternativePaths } from '../../utils/flights';
+import { FlightPathSummaryItem } from './flight-path-summary-item';
 
 export function SearchFlights() {
   const dispatch = useDispatch();
@@ -108,9 +109,17 @@ export function SearchFlights() {
         </Link>
       </Typography>
 
-      <pre>
-        {JSON.stringify(flightsPaths, null, 2)}
-      </pre>
+      <div>
+        {
+          flightsPaths.map((flightPath, i) => (
+            <FlightPathSummaryItem
+              key={i}
+              path={flightPath}
+              divider={i !== flightsPaths.length - 1}
+            />
+          ))
+        }
+      </div>
     </div>
   </PageSection>;
 }
