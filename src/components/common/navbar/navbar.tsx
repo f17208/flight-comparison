@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useWindowSize } from 'react-use';
 import { HamburgerIcon } from '../icons';
 
@@ -15,14 +15,16 @@ export interface NavbarProps { }
 
 export const Navbar: FC<NavbarProps> = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const { pathname } = useLocation();
 
   const { width } = useWindowSize();
 
-  // closes mobile menu if window is resized
+  // closes mobile menu when window is resized and when pathname changes
   // this is to avoid that the mobile menu is kept open even when not visible
+  // or after clicking a link
   useEffect(() => {
     setIsExpanded(false);
-  }, [width, setIsExpanded]);
+  }, [width, pathname, setIsExpanded]);
 
   return (
     <nav
@@ -50,12 +52,12 @@ export const Navbar: FC<NavbarProps> = () => {
             md:hidden
           "
         >
-          <HamburgerIcon className="h-6 fill-gray-300" />
+          <HamburgerIcon className="h-6 fill-gray-500" />
         </button>
         <div className={`w-full md:block md:w-auto ${!isExpanded ? 'hidden' : ''}`}>
           <ul
             className="
-              flex flex-col md:flex-row md:space-x-8
+              flex flex-col md:flex-row md:space-x-8 space-y-1
               mt-4 md:mt-0
               md:text-sm md:font-medium
             "
