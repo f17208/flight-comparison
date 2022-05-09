@@ -10,6 +10,7 @@ export const PageSection: FC<PageSectionProps> = ({ children, className }) => {
     <div
       className={`
         container mx-auto
+        py-2 px-4 sm:px-0
         ${className}
       `}
     >
