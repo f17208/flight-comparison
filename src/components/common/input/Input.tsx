@@ -11,7 +11,7 @@ export const Input: FC<InputProps> = ({ className, ...props }) => {
       className={`
         border border-primary rounded-md
         disabled:opacity-50 disabled:cursor-not-allowed
-        px-2 py-1
+        px-2 py-1 focus:outline-primary
         ${className || ''}
       `}
       {...props}
