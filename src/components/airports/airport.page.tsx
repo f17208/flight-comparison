@@ -1,39 +1,32 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
-import { Link } from 'react-router-dom';
 import { sagaActions } from './airports.saga';
 
 import { Typography } from '../common/typography/Typography';
 import { PageSection } from '../common/layout/PageSection';
 import { airportsSelector } from './airports.slice';
-import { AirportItem } from './airport-item';
 
-export function Airports() {
+export function Airport() {
   const dispatch = useDispatch();
   const airports = useSelector(airportsSelector);
+  const { airportId } = useParams();
 
   useEffect(() => {
     dispatch({ type: sagaActions.FETCH_ALL_AIRPORTS });
   }, [dispatch]);
 
-  // TODO handle loading
+  const airport = useMemo(() => {
+    return airports.find(a => a.id.toString() === airportId);
+  }, [airports, airportId]);
+
   return <PageSection className="p-8">
     <div>
       <Typography variant="h3" className="text-neutral">
-        Airports
+        {airport?.codeIata}
       </Typography>
-      <ul>
-        {
-          airports.map((airport) => (
-            <li key={airport.id}>
-              <Link to={`/airports/${airport.id}`}>
-                <AirportItem airport={airport} className="my-1" />
-              </Link>
-            </li>
-          ))
-        }
-      </ul>
+
     </div>
   </PageSection>;
 }

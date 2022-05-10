@@ -6,11 +6,18 @@ import { Airport } from './airports.types';
 export interface AirportItemProps {
   airport: Airport;
   onClick?: (e: MouseEvent<HTMLElement>) => void;
+  button?: boolean;
   className?: string;
   endIcon?: ReactNode;
 }
 
-export const AirportItem: FC<AirportItemProps> = ({ airport, onClick, className, endIcon }) => {
+export const AirportItem: FC<AirportItemProps> = ({
+  airport,
+  onClick,
+  className,
+  button = true,
+  endIcon,
+}) => {
   return (
     <button
       type="button"
@@ -24,12 +31,12 @@ export const AirportItem: FC<AirportItemProps> = ({ airport, onClick, className,
         rounded-lg
         cursor-default
         text-neutral fill-neutral
-        ${onClick ? 'hover:bg-secondary hover:text-white hover:fill-white cursor-pointer' : ''}
+        ${(button || onClick) ? 'hover:bg-secondary hover:text-white hover:fill-white cursor-pointer' : ''}
         ${className || ''}
       `}
     >
       <div className="flex">
-        <AirportIcon className="h-6 w-auto fill-gray-500 mx-2 fill-inherit" />
+        <AirportIcon className="h-6 w-auto mx-2 fill-inherit" />
         <div className="flex flex-col">
           <Typography variant="h4" className="text-inherit">
             {airport.codeIata}

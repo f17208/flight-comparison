@@ -6,6 +6,7 @@ import { Airline } from './airlines.types';
 export interface AirlineItemProps {
   airline: Airline;
   onClick?: (e: MouseEvent<HTMLElement>) => void;
+  button?: boolean;
   className?: string;
   showBorder?: boolean;
   showIata?: boolean;
@@ -14,6 +15,7 @@ export interface AirlineItemProps {
 export const AirlineItem: FC<AirlineItemProps> = ({
   airline,
   onClick,
+  button = true,
   showBorder = true,
   showIata = true,
   className,
@@ -27,10 +29,10 @@ export const AirlineItem: FC<AirlineItemProps> = ({
         py-1 pr-4
         w-full
         text-neutral
-        ${showBorder ? 'border' : ''}
         rounded-lg
         cursor-default
-        ${onClick ? 'hover:bg-secondary hover:text-white hover:fill-white cursor-pointer' : ''}
+        ${showBorder ? 'border' : ''}
+        ${(button || onClick) ? 'hover:bg-secondary hover:text-white hover:fill-white cursor-pointer' : ''}
         ${className || ''}
       `}
     >

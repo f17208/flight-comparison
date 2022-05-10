@@ -6,6 +6,7 @@ import { Airports } from './components/airports/airports.page';
 import { Airlines } from './components/airlines/airlines.page';
 import { SearchFlights } from './components/flights/search-flights.page';
 import { SelectAirportsPage } from './components/airports/select-airports.page';
+import { Airport } from './components/airports/airport.page';
 
 function App() {
   return (
@@ -14,8 +15,11 @@ function App() {
       <Routes>
         <Route path="/" element={<SelectAirportsPage />} />
         <Route path="/flights/from/:departureCode/to/:arrivalCode" element={<SearchFlights />} />
-        <Route path="airports" element={<Airports />} />
-        <Route path="airlines" element={<Airlines />} />
+
+        <Route path="/airports" element={<Airports />} />
+        <Route path="/airports/:airportId" element={<Airport />} />
+
+        <Route path="/airlines" element={<Airlines />} />
       </Routes>
     </div>
   );
