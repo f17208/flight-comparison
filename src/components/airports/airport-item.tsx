@@ -1,4 +1,5 @@
-import { FC, MouseEvent, ReactNode } from 'react';
+import { FC, MouseEvent, ReactNode, useMemo } from 'react';
+import { getAirportDetailsFromIATA } from '../../utils/airports';
 import { AirportIcon } from '../common/icons';
 import { Typography } from '../common/typography/Typography';
 import { Airport } from './airports.types';
@@ -18,6 +19,12 @@ export const AirportItem: FC<AirportItemProps> = ({
   button = true,
   endIcon,
 }) => {
+  const airportDetails = useMemo(() => {
+    return airport
+      ? getAirportDetailsFromIATA(airport?.codeIata)
+      : null;
+  }, [airport]);
+
   return (
     <button
       type="button"
@@ -39,7 +46,7 @@ export const AirportItem: FC<AirportItemProps> = ({
         <AirportIcon className="h-6 w-auto mx-2 fill-inherit" />
         <div className="flex flex-col">
           <Typography variant="h4" className="text-inherit">
-            {airport.codeIata}
+            {airport.codeIata} {airportDetails ? `(${airportDetails.name})` : ''}
           </Typography>
         </div>
       </div>

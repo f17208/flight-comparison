@@ -9,7 +9,6 @@ import { AirlineItem } from './airline-item';
 export function Airlines() {
   const airlines = useSelector(airlinesSelector);
 
-  // TODO handle loading
   return <PageSection className="p-8">
     <div>
       <Typography className="text-neutral" variant="h3">

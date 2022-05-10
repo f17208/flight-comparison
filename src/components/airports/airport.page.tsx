@@ -9,6 +9,7 @@ import { PageSection } from '../common/layout/PageSection';
 import { airportsSelector } from './airports.slice';
 import { DEFAULT_MAP_ZOOM } from '../../utils/constants';
 import { MarkerIcon } from '../common/icons';
+import { AirportDetails } from './airport-details';
 
 export function Airport() {
   const airports = useSelector(airportsSelector);
@@ -23,19 +24,15 @@ export function Airport() {
     +(airport?.longitude || 0),
   ];
 
-  if (!airport) { // TODO error
-    return (
-      <div>
-        Error...
-      </div>
-    );
-  }
-
   return <PageSection className="p-8">
     <div>
       <Typography variant="h3" className="text-neutral">
         {airport?.codeIata}
       </Typography>
+
+      {airport && (
+        <AirportDetails airport={airport} className="mb-4" />
+      )}
 
       <MapContainer
         style={{ width: '100%', height: '60vh' }}
@@ -53,7 +50,9 @@ export function Airport() {
         >
           <Popup>
             <strong>{airport?.codeIata}</strong>
-            <p>{`(${airportCoordinates.join(', ')})`}</p>
+            {airport && (
+              <AirportDetails airport={airport} />
+            )}
           </Popup>
         </Marker>
       </MapContainer>

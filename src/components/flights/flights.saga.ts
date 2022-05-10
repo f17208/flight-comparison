@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { call, takeEvery, put, all } from 'redux-saga/effects';
 import { getFlights, getSearchFlights } from './flights.api';
-import { setFlights, setLoading } from './flights.slice';
+import { setFlights, setAllFlightsLoading, setAllFlights, setLoading } from './flights.slice';
 
 export const sagaActions = {
   FETCH_ALL_FLIGHTS: 'FETCH_ALL_FLIGHTS',
@@ -9,10 +9,10 @@ export const sagaActions = {
 };
 
 export function* fetchAllFlightsSaga() {
-  yield put(setLoading(true));
+  yield put(setAllFlightsLoading(true));
   const result: AxiosResponse = yield call(getFlights);
-  yield put(setFlights(result.data.data));
-  yield put(setLoading(false));
+  yield put(setAllFlights(result.data.data));
+  yield put(setAllFlightsLoading(false));
 }
 
 export type FetchSearchFlightsAction = {

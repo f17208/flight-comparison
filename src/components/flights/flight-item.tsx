@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { Link } from 'react-router-dom';
 import { CURRENCY_SYMBOL } from '../../utils/constants';
 import { ArrowForwardIcon, FlightIcon } from '../common/icons';
 import { Typography } from '../common/typography/Typography';
@@ -6,21 +7,39 @@ import { FlightPathItem } from './flights.types';
 
 export interface FlightItemProps {
   flight: FlightPathItem;
+  divider?: boolean;
+  className?: string;
 }
 
-export const FlightItem: FC<FlightItemProps> = ({ flight }) => {
+export const FlightItem: FC<FlightItemProps> = ({ flight, divider, className }) => {
   return (
-    <div className="flex items-center space-x-1">
+    <div
+      className={`
+        flex items-center space-x-1
+        ${divider ? 'border border-t-0 border-x-0 py-1' : ''}
+        ${className || ''}
+      `}
+    >
       <FlightIcon className="h-7 w-auto mx-2 fill-inherit" />
       <div className="flex flex-col">
         <div className="flex flex-row space-x-2 items-center">
-          <Typography variant="h5" className="text-inherit">
+          <Link
+            style={{ pointerEvents: flight.departureAirportId ? 'inherit' : 'none' }}
+            to={`/airports/${flight.departureAirportId}`}
+            className="text-secondary font-bold"
+          >
             {flight.departureAirport.codeIata}
-          </Typography>
+          </Link>
+
           <ArrowForwardIcon className="h-3 w-auto mx-2 fill-inherit" />
-          <Typography variant="h5" className="text-inherit">
+
+          <Link
+            style={{ pointerEvents: flight.arrivalAirportId ? 'inherit' : 'none' }}
+            to={`/airports/${flight.arrivalAirportId}`}
+            className="text-secondary font-bold"
+          >
             {flight.arrivalAirport.codeIata}
-          </Typography>
+          </Link>
         </div>
         <div className="flex flex-row space-x-1 items-center">
           <Typography variant="subtitle1" className="text-inherit">

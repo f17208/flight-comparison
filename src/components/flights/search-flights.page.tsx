@@ -20,7 +20,7 @@ import {
   flightsSelector,
   loadingSelector as flightsLoadingSelector,
 } from './flights.slice';
-import { calculateAlternativePaths } from '../../utils/flights';
+import { calculateAlternativePaths, enrighFlightWithDetails } from '../../utils/flights';
 import { FlightPathSummaryItem } from './flight-path-summary-item';
 import { airlinesSelector } from '../airlines/airlines.slice';
 import { FlightPathItem } from './flights.types';
@@ -33,8 +33,7 @@ export function SearchFlights() {
   const dispatch = useDispatch();
   const { departureCode, arrivalCode } = useParams();
 
-  // we're using debounce to avoid duplicate requests
-  // TODO: investigate why hook dependencies were updated twice
+  // we're using debounce to avoid duplicate requests whenever deps change
   useDebounce(
     () => {
       dispatch({
@@ -83,28 +82,8 @@ export function SearchFlights() {
   // about how to fetch these pieces of information
   const fullFlightsPaths = useMemo(() => {
     return flightsPaths.map(flightsPath => {
-      return flightsPath.map(flight => {
-        const flightArrival = allAirports.find(a => a.id === flight.arrivalAirportId);
-        const flightDeparture = allAirports.find(a => a.id === flight.departureAirportId);
-        const flightAirline = allAirlines.find(a => a.id === flight.airlineId);
-        const missingData = !flightArrival
-          || !flightDeparture
-          || !flightAirline;
-
-        const toReturn: FlightPathItem = {
-          ...flight,
-          arrivalAirport: flightArrival!,
-          departureAirport: flightDeparture!,
-          airline: flightAirline!,
-        };
-
-        if (missingData) {
-          console.error('Missing data for flight', toReturn);
-          return null;
-        }
-        return toReturn;
-      })
-      // if missing data, it will be excluded from the final results
+      return flightsPath.map(flight => enrighFlightWithDetails(flight, allAirlines, allAirports))
+        // if missing data, it will be excluded from the final results
         .filter(Boolean) as FlightPathItem[];
     });
   }, [flightsPaths, allAirports, allAirlines]);

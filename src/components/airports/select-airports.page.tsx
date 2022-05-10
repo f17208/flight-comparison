@@ -7,7 +7,6 @@ import {
   airportsSelector,
   arrivalAirportSelector,
   departureAirportSelector,
-  loadingSelector as airportsLoadingSelector,
   setArrivalAirport,
   setDepartureAirport,
 } from './airports.slice';
@@ -25,8 +24,6 @@ export function SelectAirportsPage() {
   const navigate = useNavigate();
 
   const allAirports = useSelector(airportsSelector);
-
-  const allAirportsLoading = useSelector(airportsLoadingSelector);
   const departureAirport = useSelector(departureAirportSelector);
   const arrivalAirport = useSelector(arrivalAirportSelector);
 
@@ -55,9 +52,6 @@ export function SelectAirportsPage() {
     }
     navigate(`flights/from/${departureAirport.codeIata}/to/${arrivalAirport.codeIata}`);
   }, [navigate, arrivalAirport, departureAirport]);
-
-  // eslint-disable-next-line
-  const loading = allAirportsLoading; // TODO add loader
 
   return <PageSection>
     <div className="flex flex-col space-y-2">
@@ -111,6 +105,7 @@ export function SelectAirportsPage() {
         search={departureDialog.search}
         setSearch={departureDialog.setSearch}
         options={availableAirports}
+        maxLevenshteinDistance={3}
         selectedAirport={departureAirport}
         dialogProps={{
           open: departureDialog.isDialogOpen,
@@ -123,6 +118,7 @@ export function SelectAirportsPage() {
         search={arrivalDialog.search}
         setSearch={arrivalDialog.setSearch}
         options={availableAirports}
+        maxLevenshteinDistance={2}
         selectedAirport={arrivalAirport}
         dialogProps={{
           open: arrivalDialog.isDialogOpen,

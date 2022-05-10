@@ -1,4 +1,5 @@
-import { DetailedHTMLProps, FC, InputHTMLAttributes, ReactNode } from 'react';
+import { DetailedHTMLProps, FC, InputHTMLAttributes, ReactNode, useMemo } from 'react';
+import { getAirportDetailsFromIATA } from '../../utils/airports';
 import { Airport } from './airports.types';
 
 export interface AirportFieldProps {
@@ -24,6 +25,12 @@ export const AirportField: FC<AirportFieldProps> = ({
   labelClassName,
   inputClassName,
 }) => {
+  const airportDetails = useMemo(() => {
+    return value
+      ? getAirportDetailsFromIATA(value?.codeIata)
+      : null;
+  }, [value]);
+
   return (
     <div className={`flex ${containerClassName || ''}`}>
       <span
@@ -45,7 +52,7 @@ export const AirportField: FC<AirportFieldProps> = ({
           ${inputClassName}
         `}
         type="text"
-        value={value?.codeIata || ''}
+        value={[value?.codeIata, airportDetails?.name].filter(Boolean).join(', ')}
         {...inputProps}
       />
     </div>

@@ -1,3 +1,4 @@
+import { Airline } from '../components/airlines/airlines.types';
 import { Airport } from '../components/airports/airports.types';
 import { Flight, FlightPathItem } from '../components/flights/flights.types';
 
@@ -84,4 +85,30 @@ export function getFlightsPathDetails(path: FlightPathItem[]) {
       ),
     ),
   };
+}
+
+export function enrighFlightWithDetails(
+  flight: Flight,
+  airlines: Airline[],
+  airports: Airport[],
+) {
+  const flightArrival = airports.find(a => a.id === flight.arrivalAirportId);
+  const flightDeparture = airports.find(a => a.id === flight.departureAirportId);
+  const flightAirline = airlines.find(a => a.id === flight.airlineId);
+  const missingData = !flightArrival
+    || !flightDeparture
+    || !flightAirline;
+
+  const toReturn: FlightPathItem = {
+    ...flight,
+    arrivalAirport: flightArrival!,
+    departureAirport: flightDeparture!,
+    airline: flightAirline!,
+  };
+
+  if (missingData) {
+    console.error('Missing data for flight', toReturn);
+    return null;
+  }
+  return toReturn;
 }

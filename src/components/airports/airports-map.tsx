@@ -1,21 +1,16 @@
 import { MapContainer, useMap, Marker, Popup, Rectangle, TileLayer } from 'react-leaflet';
-import { FC, useEffect, useMemo } from 'react';
+import { FC, ReactNode, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
+
 import {
   LatLngTuple,
   polyline as LeafletPolyline,
   LatLng as LeafletLatLng,
 } from 'leaflet';
 
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-
-import { Typography } from '../common/typography/Typography';
-import { PageSection } from '../common/layout/PageSection';
-import { airportsSelector } from './airports.slice';
-
 import { DEFAULT_MAP_ZOOM } from '../../utils/constants';
 import { MarkerIcon } from '../common/icons';
-import { AirportDetails } from './airport-details';
+import { Airport } from './airports.types';
 
 interface BoundCoordsProps {
   coords: LatLngTuple[];
@@ -64,9 +59,15 @@ const BoundCoords: FC<BoundCoordsProps> = ({ coords: polyline, debug }) => {
   );
 };
 
-export function Airports() {
-  const airports = useSelector(airportsSelector);
+export interface AirportsMapProps {
+  airports: Airport[];
+  renderMarker: (airport: Airport) => ReactNode;
+}
 
+export const AirportsMap: FC<AirportsMapProps> = ({
+  airports,
+  renderMarker,
+}) => {
   const coordsToBound = useMemo(() => {
     let rightMost: number = 0;
     let topMost: number = 0;
@@ -109,48 +110,45 @@ export function Airports() {
     ] as LatLngTuple;
   }, [coordsToBound]);
 
-  return <PageSection className="p-8">
-    <div>
-      <Typography variant="h3" className="text-neutral">
-        Airports
-      </Typography>
+  return (
+    <MapContainer
+      style={{ width: '100%', height: '40vh' }}
+      center={mapCenter}
+      zoom={DEFAULT_MAP_ZOOM}
+    >
+      <BoundCoords coords={coordsToBound} />
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      {
+        airports.flatMap((airport) => {
+          const coords: LatLngTuple = [
+            +airport.latitude,
+            +airport.longitude,
+          ];
 
-      <MapContainer
-        style={{ width: '100%', height: '40vh' }}
-        center={mapCenter}
-        zoom={DEFAULT_MAP_ZOOM}
-      >
-        <BoundCoords coords={coordsToBound} />
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {
-          airports.flatMap((airport) => {
-            const coords: LatLngTuple = [
-              +airport.latitude,
-              +airport.longitude,
-            ];
-
-            return (
-              <Marker
-                key={airport.id}
-                position={coords}
-                icon={MarkerIcon}
-              >
-                <Popup>
-                  <Link to={`/airports/${airport.id}`}>
-                    <strong>{airport?.codeIata}</strong>
-                  </Link>
-                  {airport && (
-                    <AirportDetails airport={airport} />
-                  )}
-                </Popup>
-              </Marker>
-            );
-          })
-        }
-      </MapContainer>
-    </div>
-  </PageSection>;
-}
+          return (
+            <Marker
+              key={airport.id}
+              position={coords}
+              icon={MarkerIcon}
+            >
+              {
+                renderMarker
+                  ? renderMarker(airport)
+                  : (
+                    <Popup>
+                      <Link to={`/airports/${airport.id}`}>
+                        <strong>{airport?.codeIata}</strong>
+                      </Link>
+                    </Popup>
+                  )
+              }
+            </Marker>
+          );
+        })
+      }
+    </MapContainer>
+  );
+};

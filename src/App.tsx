@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useDebounce } from 'react-use';
 
 import { Navbar } from './components/common/navbar/navbar';
 
@@ -14,8 +14,10 @@ import { Loader } from './components/common/loader/loader';
 
 import { sagaActions as airportsSaga } from './components/airports/airports.saga';
 import { sagaActions as airlinesSaga } from './components/airlines/airlines.saga';
+import { sagaActions as flightsSaga } from './components/flights/flights.saga';
 import { loadingSelector as airportsLoadingSelector } from './components/airports/airports.slice';
 import { loadingSelector as airlinesLoadingSelector } from './components/airlines/airlines.slice';
+import { loadingAllSelector } from './components/flights/flights.slice';
 
 import './App.css';
 
@@ -23,14 +25,21 @@ function App() {
   const dispatch = useDispatch();
 
   const airportsLoading = useSelector(airportsLoadingSelector);
+  const flightsLoading = useSelector(loadingAllSelector);
   const airlinesLoading = useSelector(airlinesLoadingSelector);
 
-  useEffect(() => {
-    dispatch({ type: airportsSaga.FETCH_ALL_AIRPORTS });
-    dispatch({ type: airlinesSaga.FETCH_ALL_AIRLINES });
-  }, [dispatch]);
+  // we're using debounce to avoid duplicate requests whenever deps change
+  useDebounce(
+    () => {
+      dispatch({ type: airportsSaga.FETCH_ALL_AIRPORTS });
+      dispatch({ type: airlinesSaga.FETCH_ALL_AIRLINES });
+      dispatch({ type: flightsSaga.FETCH_ALL_FLIGHTS });
+    },
+    100,
+    [],
+  );
 
-  const loading = airportsLoading || airlinesLoading;
+  const loading = airportsLoading || airlinesLoading || flightsLoading;
 
   return (
     <div className="h-full">

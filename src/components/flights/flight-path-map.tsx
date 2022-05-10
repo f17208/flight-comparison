@@ -13,6 +13,7 @@ import {
   TileLayer,
   useMap,
 } from 'react-leaflet';
+import { Link } from 'react-router-dom';
 
 import { MarkerIcon } from '../common/icons';
 import { FlightPathItem } from './flights.types';
@@ -122,7 +123,6 @@ export const FlightPathMap: FC<FlightPathMapProps> = ({
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {/* <Polyline positions={polyline} /> */}
       {
         path.flatMap((flight, i) => {
           const departureCoordinates: LatLngTuple = [
@@ -141,8 +141,9 @@ export const FlightPathMap: FC<FlightPathMapProps> = ({
               icon={MarkerIcon}
             >
               <Popup>
-                <strong>{flight.departureAirport?.codeIata}</strong>
-                <p>{`(${departureCoordinates.join(', ')})`}</p>
+                <Link to={`/airports/${flight.departureAirportId}`}>
+                  <strong>{flight.departureAirport?.codeIata}</strong>
+                </Link>
               </Popup>
             </Marker>,
           ];
@@ -155,8 +156,9 @@ export const FlightPathMap: FC<FlightPathMapProps> = ({
                 icon={MarkerIcon}
               >
                 <Popup>
-                  <strong>{flight.arrivalAirport?.codeIata}</strong>
-                  <p>{`(${arrivalCoordinates.join(', ')})`}</p>
+                  <Link to={`/airports/${flight.arrivalAirportId}`}>
+                    <strong>{flight.arrivalAirport?.codeIata}</strong>
+                  </Link>
                 </Popup>
               </Marker>,
             );

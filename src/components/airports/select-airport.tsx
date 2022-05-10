@@ -15,7 +15,7 @@ export interface SelectAirportProps {
   setSearch: (search: string) => void | Dispatch<SetStateAction<string>>;
   selectedAirportProps?: AirportItemProps;
   getOptionsProps?: (option: Airport, index: number) => Omit<AirportItemProps, 'airport'>;
-  scoreThreshold?: number;
+  maxLevenshteinDistance?: number;
 }
 
 export const SelectAirport: FC<SelectAirportProps> = ({
@@ -26,29 +26,30 @@ export const SelectAirport: FC<SelectAirportProps> = ({
   selectedAirport,
   selectedAirportProps,
   getOptionsProps,
-  scoreThreshold,
+  maxLevenshteinDistance,
 }) => {
-  const optionsToShow: { airport: Airport; score: number }[] = useMemo(() => {
+  const optionsToShow: { airport: Airport; distance: number }[] = useMemo(() => {
     const searchCaseInsensitive = search.toLowerCase();
     // map options to an array of couples (option, scoreOption)
     // where scoreOption is the Levenshtein distance between option's codeIata and search
     const toReturn = options
       .map(airport => ({
         airport,
-        score: levenshtein(airport.codeIata.toLowerCase(), searchCaseInsensitive),
+        distance: levenshtein(airport.codeIata.toLowerCase(), searchCaseInsensitive),
       }))
-      .filter(({ airport, score }) => (
-        airport.id !== selectedAirport?.id
-        && (!scoreThreshold || score < scoreThreshold)
-      ));
+      .filter(({ airport }) => {
+        if (!search || !maxLevenshteinDistance) return true;
+        if (airport.id !== selectedAirport?.id) return true;
+        return false;
+      });
 
     // sort options by levenshtein distance
-    toReturn.sort(({ score: scoreA }, { score: scoreB }) => {
+    toReturn.sort(({ distance: scoreA }, { distance: scoreB }) => {
       return scoreA < scoreB ? -1 : 1;
     });
 
     return toReturn;
-  }, [options, scoreThreshold, selectedAirport, search]);
+  }, [options, maxLevenshteinDistance, selectedAirport, search]);
 
   return (
     <div className="flex flex-col space-y-2">
@@ -80,21 +81,25 @@ export const SelectAirport: FC<SelectAirportProps> = ({
       <hr />
       <div>
         {
-          optionsToShow.map(({ airport }, i) => {
-            return <AirportItem
-              key={airport.id}
-              airport={airport}
-              onClick={() => onSelect(airport)}
-              className="my-1"
-              {
-                ...(
-                  getOptionsProps
-                    ? getOptionsProps(airport, i)
-                    : {}
-                )
-              }
-            />;
-          })
+          optionsToShow
+            .filter(({ distance }) => (
+              !search || !maxLevenshteinDistance || (maxLevenshteinDistance > distance)
+            ))
+            .map(({ airport }, i) => {
+              return <AirportItem
+                key={airport.id}
+                airport={airport}
+                onClick={() => onSelect(airport)}
+                className="my-1"
+                {
+                  ...(
+                    getOptionsProps
+                      ? getOptionsProps(airport, i)
+                      : {}
+                  )
+                }
+              />;
+            })
         }
       </div>
     </div>
