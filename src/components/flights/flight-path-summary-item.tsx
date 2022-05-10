@@ -1,34 +1,22 @@
-import { FC, useMemo, useState } from 'react';
+import { FC, ReactNode, useMemo } from 'react';
 import { CURRENCY_SYMBOL } from '../../utils/constants';
-import { Button } from '../common/button/Button';
-import { Dialog } from '../common/dialog/Dialog';
-import { ViewMoreIcon } from '../common/icons';
+import { getFlightsPathDetails } from '../../utils/flights';
 import { Typography } from '../common/typography/Typography';
-import { FlightItem } from './flight-item';
 import { FlightPathItem } from './flights.types';
 
 export interface FlightPathSummaryItemProps {
   path: FlightPathItem[];
   divider?: boolean;
+  action?: ReactNode;
 }
 
 export const FlightPathSummaryItem: FC<FlightPathSummaryItemProps> = ({
   path,
   divider,
+  action,
 }) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const { departureCode, arrivalCode, totalPrice, airlines } = useMemo(() => {
-    return {
-      departureCode: path[0].departureAirport.codeIata,
-      arrivalCode: path[path.length - 1].arrivalAirport.codeIata,
-      totalPrice: path.reduce((tot, b) => tot + b.price, 0),
-      airlines: Array.from(
-        new Set( // distinct
-          path.map(flight => flight.airline),
-        ),
-      ),
-    };
+  const { totalPrice, airlines } = useMemo(() => {
+    return getFlightsPathDetails(path);
   }, [path]);
 
   return (
@@ -56,55 +44,12 @@ export const FlightPathSummaryItem: FC<FlightPathSummaryItemProps> = ({
             <strong>{totalPrice}{CURRENCY_SYMBOL}</strong>
           </Typography>
         </div>
-        <div>
-          <Button
-            variant="contained"
-            color="success"
-            className="
-              ml-auto
-              px-3 py-1
-            "
-            onClick={() => setIsDialogOpen(true)}
-          >
-            <ViewMoreIcon className="fill-white h-6 w-fit" />
-            <Typography className="font-extrabold">view</Typography>
-          </Button>
-        </div>
-      </div>
-
-      <Dialog
-        open={isDialogOpen}
-        onClose={() => setIsDialogOpen(false)}
-        title={`From ${departureCode} to ${arrivalCode}`}
-        body={
+        {action && (
           <div>
-            <div className="flex flex-col space-y-2">
-              {path.map(flightPathItem => {
-                return <FlightItem
-                  flight={flightPathItem}
-                  key={flightPathItem.id}
-                />;
-              })}
-            </div>
-            <div className="mt-4 flex justify-end space-x-3 items-center">
-              <Typography variant="subtitle2">
-                Total: <strong>{totalPrice}{CURRENCY_SYMBOL}</strong>
-              </Typography>
-              <Button
-                variant="contained"
-                color="success"
-                className="
-                  ml-auto
-                  px-3
-                "
-                onClick={() => alert('Sorry, not implemented :)')}
-              >
-                <Typography className="font-extrabold">Book now</Typography>
-              </Button>
-            </div>
+            {action}
           </div>
-        }
-      />
+        )}
+      </div>
     </div>
   );
 };
