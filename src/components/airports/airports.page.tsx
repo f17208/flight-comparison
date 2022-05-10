@@ -20,7 +20,7 @@ export function Airports() {
   // TODO handle loading
   return <PageSection className="p-8">
     <div>
-      <Typography variant="h3">
+      <Typography variant="h3" className="text-neutral">
         Airports
       </Typography>
       <ul>

@@ -26,6 +26,7 @@ export const AirlineItem: FC<AirlineItemProps> = ({
         flex items-center
         py-1 pr-4
         w-full
+        text-neutral
         ${showBorder ? 'border' : ''}
         rounded-lg
         cursor-default
@@ -33,7 +34,7 @@ export const AirlineItem: FC<AirlineItemProps> = ({
         ${className || ''}
       `}
     >
-      <AirlineIcon className="h-10 w-auto fill-gray-500 mx-2 fill-inherit" />
+      <AirlineIcon className="h-9 w-auto mx-2 fill-inherit" />
       <div className="flex flex-col">
         <Typography variant="h4" className="text-inherit text-left">
           {airline.name}
