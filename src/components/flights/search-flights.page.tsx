@@ -2,8 +2,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { useDebounce } from 'react-use';
 
-import { useEffect, useMemo } from 'react';
-import { ArrowBackIcon } from '../common/icons';
+import { useEffect, useMemo, useState } from 'react';
+import { ArrowBackIcon, ViewMoreIcon } from '../common/icons';
 import { PageSection } from '../common/layout/PageSection';
 import { Typography } from '../common/typography/Typography';
 
@@ -26,6 +26,9 @@ import { calculateAlternativePaths } from '../../utils/flights';
 import { FlightPathSummaryItem } from './flight-path-summary-item';
 import { airlinesSelector } from '../airlines/airlines.slice';
 import { FlightPathItem } from './flights.types';
+import { FlightPathMap } from './flight-path-map';
+import { Button } from '../common/button/Button';
+import { FlightPathDetails } from './flight-path-details';
 
 export function SearchFlights() {
   const dispatch = useDispatch();
@@ -113,6 +116,20 @@ export function SearchFlights() {
     });
   }, [flightsPaths, allAirports, allAirlines]);
 
+  const [selectedPathIndex, setSelectedPathIndex] = useState<number>(0);
+
+  useEffect(() => {
+    setSelectedPathIndex(index => {
+      return fullFlightsPaths.length < index
+        ? 0
+        : index;
+    });
+  }, [fullFlightsPaths, setSelectedPathIndex]);
+
+  if (!departureAirport || !arrivalAirport) {
+    return <div>loading...</div>;
+  }
+
   return <PageSection>
     <div className="flex flex-col space-y-2">
       <Link to="/" className="text-secondary flex items-center space-x-1">
@@ -124,36 +141,102 @@ export function SearchFlights() {
         Search Flights
       </Typography>
 
-      <Typography variant="h4">
-        {' from '}
-        <Link
-          style={{ pointerEvents: departureAirport ? 'inherit' : 'none' }}
-          to={`/airports/${departureAirport?.id}`}
-          className="text-secondary"
-        >
-          {departureCode}
-        </Link>
-        {' to '}
-        <Link
-          style={{ pointerEvents: arrivalAirport ? 'inherit' : 'none' }}
-          to={`/airports/${arrivalAirport?.id}`}
-          className="text-secondary"
-        >
-          {arrivalCode}
-        </Link>
-      </Typography>
-
-      <div>
-        {
-          fullFlightsPaths.map((fullFlightPath, i) => (
-            <FlightPathSummaryItem
-              key={i}
-              path={fullFlightPath}
-              divider={i !== fullFlightsPaths.length - 1}
-            />
-          ))
-        }
+      <div className="flex justify-between">
+        <div>
+          <Typography variant="h4">
+            {' from '}
+            <Link
+              style={{ pointerEvents: departureAirport ? 'inherit' : 'none' }}
+              to={`/airports/${departureAirport?.id}`}
+              className="text-secondary"
+            >
+              {departureCode}
+            </Link>
+            {' to '}
+            <Link
+              style={{ pointerEvents: arrivalAirport ? 'inherit' : 'none' }}
+              to={`/airports/${arrivalAirport?.id}`}
+              className="text-secondary"
+            >
+              {arrivalCode}
+            </Link>
+          </Typography>
+        </div>
+        {fullFlightsPaths.length > 0 && (
+          <div>
+            <Typography variant="h5">
+              {fullFlightsPaths.length} possible {
+                fullFlightsPaths.length === 1
+                  ? 'route'
+                  : 'routes'
+              }
+            </Typography>
+          </div>
+        )}
       </div>
+
+      {fullFlightsPaths.length > 0 && (
+        <div>
+          <div
+            className="
+              px-3
+              bg-slate-100
+              rounded-lg rounded-b-none
+              border border-2 border-slate-300 border-b-0
+            "
+          >
+            {
+              fullFlightsPaths.map((fullFlightPath, i) => (
+                <FlightPathSummaryItem
+                  key={i}
+                  path={fullFlightPath}
+                  divider={i !== fullFlightsPaths.length - 1}
+                  action={
+                    fullFlightsPaths.length > 1
+                      ? (
+                        <div className="flex space-x-1">
+                          <Button
+                            variant="contained"
+                            color="info"
+                            disabled={selectedPathIndex === i}
+                            className="
+                            ml-auto
+                            px-3 py-1
+                          "
+                            onClick={() => setSelectedPathIndex(i)}
+                          >
+                            <ViewMoreIcon className="fill-inherit h-6 w-fit" />
+                            <Typography className="font-extrabold">view</Typography>
+                          </Button>
+                        </div>
+                      )
+                      : undefined
+                  }
+                />
+              ))
+            }
+          </div>
+
+          <div className="border border-2 border-slate-300 border-y-1">
+            <FlightPathMap path={fullFlightsPaths[selectedPathIndex] || []} />
+          </div>
+
+          {fullFlightsPaths[selectedPathIndex] && (
+            <div
+              className="
+                p-3
+                mb-8
+                bg-slate-100
+                border border-2 border-slate-300 border-t-0
+                rounded-lg rounded-t-none
+              "
+            >
+              <FlightPathDetails path={fullFlightsPaths[selectedPathIndex]} />
+            </div>
+          )}
+
+        </div>
+      )}
     </div>
   </PageSection>;
 }

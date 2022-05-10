@@ -1,5 +1,5 @@
 import { Airport } from '../components/airports/airports.types';
-import { Flight } from '../components/flights/flights.types';
+import { Flight, FlightPathItem } from '../components/flights/flights.types';
 
 function getSuccessiveAirportsDAG(
   flights: Flight[],
@@ -73,4 +73,15 @@ export function calculateAlternativePaths(
       ).filter(Boolean) as Flight[]
     ),
   );
+}
+
+export function getFlightsPathDetails(path: FlightPathItem[]) {
+  return {
+    totalPrice: path.reduce((tot, b) => tot + b.price, 0).toFixed(2),
+    airlines: Array.from(
+      new Set( // distinct
+        path.map(flight => flight.airline),
+      ),
+    ),
+  };
 }

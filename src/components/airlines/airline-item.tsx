@@ -39,10 +39,10 @@ export const AirlineItem: FC<AirlineItemProps> = ({
       <AirlineIcon className="h-9 w-auto mx-2 fill-inherit" />
       <div className="flex flex-col">
         <Typography variant="h4" className="text-inherit text-left">
-          {airline.name}
+          {airline.name} {airline.logoFilename}
         </Typography>
         <Typography className={`text-left ${showIata ? '' : 'hidden'}`}>
-          IATA: {airline.codeIataPrefix || 'n/a'}
+          IATA prefix: {airline.codeIataPrefix || 'n/a'}
         </Typography>
       </div>
     </button>

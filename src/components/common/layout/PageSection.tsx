@@ -9,7 +9,7 @@ export const PageSection: FC<PageSectionProps> = ({ children, className }) => {
   return (
     <div
       className={`
-        container mx-auto max-w-lg
+        container mx-auto max-w-2xl
         pt-4 px-4 sm:px-0
         ${className}
       `}

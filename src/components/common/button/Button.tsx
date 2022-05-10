@@ -46,7 +46,10 @@ export const Button: FC<ButtonProps> = ({
     switch (color) {
       case 'error': return 'bg-red-500 hover:bg-red-600 disabled:bg-red-500 text-white';
       case 'success': return 'bg-green-500 hover:bg-green-600 disabled:bg-green-500 text-white';
-      case 'info': return 'bg-primary hover:bg-secondary disabled:bg-primary hover:text-white text-neutral';
+      case 'info': return [
+        'bg-primary hover:bg-secondary disabled:bg-primary',
+        'hover:text-white hover:fill-white fill-neutral text-neutral',
+      ].join(' ');
       default: return 'bg-gray-500 hover:bg-gray-600 disabled:bg-gray-500 text-white';
     }
   }, [variant]);
@@ -58,6 +61,7 @@ export const Button: FC<ButtonProps> = ({
       className={`
         ${variantClasses}
         disabled:opacity-50 disabled:cursor-not-allowed
+        disabled:bg-gray-300 disabled:text-neutral disabled:fill-neutral
         font-bold
         px-4 py-1
         rounded-lg

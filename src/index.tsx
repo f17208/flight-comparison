@@ -10,6 +10,7 @@ import { store } from './app.store';
 
 import './index.css';
 import './tailwind.css';
+import 'leaflet/dist/leaflet.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
