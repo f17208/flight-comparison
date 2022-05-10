@@ -1,10 +1,8 @@
-import { useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { LatLngExpression } from 'leaflet';
-
-import { sagaActions } from './airports.saga';
 
 import { Typography } from '../common/typography/Typography';
 import { PageSection } from '../common/layout/PageSection';
@@ -13,13 +11,8 @@ import { DEFAULT_MAP_ZOOM } from '../../utils/constants';
 import { MarkerIcon } from '../common/icons';
 
 export function Airport() {
-  const dispatch = useDispatch();
   const airports = useSelector(airportsSelector);
   const { airportId } = useParams();
-
-  useEffect(() => {
-    dispatch({ type: sagaActions.FETCH_ALL_AIRPORTS });
-  }, [dispatch]);
 
   const airport = useMemo(() => {
     return airports.find(a => a.id.toString() === airportId);

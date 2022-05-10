@@ -8,8 +8,6 @@ import { PageSection } from '../common/layout/PageSection';
 import { Typography } from '../common/typography/Typography';
 
 import { sagaActions as flightsSagaActions } from './flights.saga';
-import { sagaActions as airportsSagaActions } from '../airports/airports.saga';
-import { sagaActions as airlinesSagaActions } from '../airlines/airlines.saga';
 
 import {
   airportsSelector,
@@ -29,6 +27,7 @@ import { FlightPathItem } from './flights.types';
 import { FlightPathMap } from './flight-path-map';
 import { Button } from '../common/button/Button';
 import { FlightPathDetails } from './flight-path-details';
+import { Loader } from '../common/loader/loader';
 
 export function SearchFlights() {
   const dispatch = useDispatch();
@@ -38,12 +37,6 @@ export function SearchFlights() {
   // TODO: investigate why hook dependencies were updated twice
   useDebounce(
     () => {
-      dispatch({
-        type: airportsSagaActions.FETCH_ALL_AIRPORTS,
-      });
-      dispatch({
-        type: airlinesSagaActions.FETCH_ALL_AIRLINES,
-      });
       dispatch({
         type: flightsSagaActions.FETCH_SEARCH_FLIGHTS,
         payload: {
@@ -126,8 +119,8 @@ export function SearchFlights() {
     });
   }, [fullFlightsPaths, setSelectedPathIndex]);
 
-  if (!departureAirport || !arrivalAirport) {
-    return <div>loading...</div>;
+  if (!departureAirport || !arrivalAirport || !fullFlightsPaths.length) {
+    return <Loader />;
   }
 
   return <PageSection>

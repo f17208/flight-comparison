@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,7 +18,6 @@ import { AirportField } from './airport-field';
 import { Button } from '../common/button/Button';
 import { PageSection } from '../common/layout/PageSection';
 import { Typography } from '../common/typography/Typography';
-import { sagaActions as airportsSagaActions } from './airports.saga';
 import { ChevronRightIcon } from '../common/icons';
 
 export function SelectAirportsPage() {
@@ -48,15 +47,6 @@ export function SelectAirportsPage() {
 
   const departureDialog = useSelectAirportDialog(departureAirport, onSetDepartureAirport);
   const arrivalDialog = useSelectAirportDialog(arrivalAirport, onSetArrivalAirport);
-
-  /**
-   * Load all airports
-   * In order to select the departure and arrival airports, they must be loaded.
-   * We do this
-   */
-  useEffect(() => {
-    dispatch({ type: airportsSagaActions.FETCH_ALL_AIRPORTS });
-  }, [dispatch]);
 
   const goToNextPage = useCallback(() => {
     if (!departureAirport || !arrivalAirport) {

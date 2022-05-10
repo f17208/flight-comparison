@@ -1,5 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
-import './App.css';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { Navbar } from './components/common/navbar/navbar';
 
 import { Airports } from './components/airports/airports.page';
@@ -10,24 +12,45 @@ import { Airport } from './components/airports/airport.page';
 import { Airline } from './components/airlines/airline.page';
 import { Loader } from './components/common/loader/loader';
 
+import { sagaActions as airportsSaga } from './components/airports/airports.saga';
+import { sagaActions as airlinesSaga } from './components/airlines/airlines.saga';
+import { loadingSelector as airportsLoadingSelector } from './components/airports/airports.slice';
+import { loadingSelector as airlinesLoadingSelector } from './components/airlines/airlines.slice';
+
+import './App.css';
+
 function App() {
-  return (
-    <Loader />
-  );
+  const dispatch = useDispatch();
+
+  const airportsLoading = useSelector(airportsLoadingSelector);
+  const airlinesLoading = useSelector(airlinesLoadingSelector);
+
+  useEffect(() => {
+    dispatch({ type: airportsSaga.FETCH_ALL_AIRPORTS });
+    dispatch({ type: airlinesSaga.FETCH_ALL_AIRLINES });
+  }, [dispatch]);
+
+  const loading = airportsLoading || airlinesLoading;
 
   return (
     <div className="h-full">
       <Navbar />
-      <Routes>
-        <Route path="/" element={<SelectAirportsPage />} />
-        <Route path="/flights/from/:departureCode/to/:arrivalCode" element={<SearchFlights />} />
+      {
+        loading
+          ? <Loader />
+          : (
+            <Routes>
+              <Route path="/" element={<SelectAirportsPage />} />
+              <Route path="/flights/from/:departureCode/to/:arrivalCode" element={<SearchFlights />} />
 
-        <Route path="/airports" element={<Airports />} />
-        <Route path="/airports/:airportId" element={<Airport />} />
+              <Route path="/airports" element={<Airports />} />
+              <Route path="/airports/:airportId" element={<Airport />} />
 
-        <Route path="/airlines" element={<Airlines />} />
-        <Route path="/airlines/:airlineId" element={<Airline />} />
-      </Routes>
+              <Route path="/airlines" element={<Airlines />} />
+              <Route path="/airlines/:airlineId" element={<Airline />} />
+            </Routes>
+          )
+      }
     </div>
   );
 }
