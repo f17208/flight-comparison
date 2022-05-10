@@ -27,8 +27,8 @@
       "import/extensions": "off",
       "react/react-in-jsx-scope": "off",
       "@typescript-eslint/indent": [
-        "error", 
-        2, 
+        "error",
+        2,
         {
           "ignoredNodes": [
             "TSTypeParameterInstantiation",
@@ -66,7 +66,8 @@
       "no-plusplus": "off",
       "no-console": "off",
       "no-alert": "off",
-      "no-trailing-spaces": "warn"
+      "no-trailing-spaces": "warn",
+      "no-nested-ternary": "off"
     },
     "overrides": [
       {

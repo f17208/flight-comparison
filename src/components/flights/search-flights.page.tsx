@@ -1,144 +1,159 @@
-import { useCallback, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { Airport } from '../airports/airports.api';
+import { Link, useParams } from 'react-router-dom';
+import { useDebounce } from 'react-use';
+
+import { useEffect, useMemo } from 'react';
+import { ArrowBackIcon } from '../common/icons';
+import { PageSection } from '../common/layout/PageSection';
+import { Typography } from '../common/typography/Typography';
+
+import { sagaActions as flightsSagaActions } from './flights.saga';
+import { sagaActions as airportsSagaActions } from '../airports/airports.saga';
+import { sagaActions as airlinesSagaActions } from '../airlines/airlines.saga';
+
 import {
   airportsSelector,
-  arrivalAirportSelector,
-  departureAirportSelector,
   loadingSelector as airportsLoadingSelector,
   setArrivalAirport,
   setDepartureAirport,
 } from '../airports/airports.slice';
 
-import { SelectAirportDialog } from '../airports/select-airport';
-import { useSelectAirportDialog } from '../airports/select-airport.hooks';
-import { Button } from '../common/button/Button';
-import { PageSection } from '../common/layout/PageSection';
-import { Typography } from '../common/typography/Typography';
-import { sagaActions as airportsSagaActions } from '../airports/airports.saga';
-import { ChevronRightIcon } from '../common/icons';
-import { AirportField } from '../airports/airport-field';
+import {
+  flightsSelector,
+  loadingSelector as flightsLoadingSelector,
+} from './flights.slice';
+import { calculateAlternativePaths } from '../../utils/flights';
+import { FlightPathSummaryItem } from './flight-path-summary-item';
+import { airlinesSelector } from '../airlines/airlines.slice';
+import { FlightPathItem } from './flights.types';
 
 export function SearchFlights() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { departureCode, arrivalCode } = useParams();
+
+  // we're using debounce to avoid duplicate requests
+  // TODO: investigate why hook dependencies were updated twice
+  useDebounce(
+    () => {
+      dispatch({
+        type: airportsSagaActions.FETCH_ALL_AIRPORTS,
+      });
+      dispatch({
+        type: airlinesSagaActions.FETCH_ALL_AIRLINES,
+      });
+      dispatch({
+        type: flightsSagaActions.FETCH_SEARCH_FLIGHTS,
+        payload: {
+          departureCode,
+          arrivalCode,
+        },
+      });
+    },
+    100,
+    [departureCode, arrivalCode],
+  );
 
   const allAirports = useSelector(airportsSelector);
+  const allAirlines = useSelector(airlinesSelector);
+  const flights = useSelector(flightsSelector);
 
-  const allAirportsLoading = useSelector(airportsLoadingSelector);
-  const departureAirport = useSelector(departureAirportSelector);
-  const arrivalAirport = useSelector(arrivalAirportSelector);
+  const airportsLoading = useSelector(airportsLoadingSelector);
+  const flightsLoading = useSelector(flightsLoadingSelector);
 
-  const availableAirports = useMemo(() => {
-    return allAirports.filter(airport => {
-      return airport.id !== departureAirport?.id
-        && airport.id !== arrivalAirport?.id;
-    });
-  }, [allAirports, arrivalAirport, departureAirport]);
+  const departureAirport = allAirports.find(a => a.codeIata === departureCode) || null;
+  const arrivalAirport = allAirports.find(a => a.codeIata === arrivalCode) || null;
 
-  const onSetDepartureAirport = useCallback((airport: Airport | null) => {
-    dispatch(setDepartureAirport(airport));
-  }, [dispatch]);
-
-  const onSetArrivalAirport = useCallback((airport: Airport | null) => {
-    dispatch(setArrivalAirport(airport));
-  }, [dispatch]);
-
-  const departureDialog = useSelectAirportDialog(departureAirport, onSetDepartureAirport);
-  const arrivalDialog = useSelectAirportDialog(arrivalAirport, onSetArrivalAirport);
-
-  /**
-   * Load all airports
-   * In order to select the departure and arrival airports, they must be loaded.
-   * We do this
-   */
+  // this is just to keep state consistent between page reloads
   useEffect(() => {
-    dispatch({ type: airportsSagaActions.FETCH_ALL_AIRPORTS });
-  }, [dispatch]);
+    dispatch(setArrivalAirport(arrivalAirport));
+  }, [dispatch, arrivalAirport]);
 
-  const goToNextPage = useCallback(() => {
-    if (!departureAirport || !arrivalAirport) {
-      console.error('Missing arrival or departure airport'); // this shouldn't happen btw
-      return;
+  useEffect(() => {
+    dispatch(setDepartureAirport(departureAirport));
+  }, [dispatch, arrivalAirport]);
+
+  const loading = airportsLoading
+   || flightsLoading;
+
+  const flightsPaths = useMemo(() => {
+    if (!loading && departureAirport && arrivalAirport && flights.length) {
+      return calculateAlternativePaths(departureAirport, arrivalAirport, flights);
     }
-    navigate(`flights/from/${departureAirport.codeIata}/to/${arrivalAirport.codeIata}`);
-  }, [navigate, arrivalAirport, departureAirport]);
+    return [];
+  }, [flights, loading, arrivalAirport, departureAirport]);
 
-  // eslint-disable-next-line
-  const loading = allAirportsLoading; // TODO add loader
+  // we want to fill in the details about airports and airlines
+  // so the children components (FlightPathSummaryItem) won't have to know
+  // about how to fetch these pieces of information
+  const fullFlightsPaths = useMemo(() => {
+    return flightsPaths.map(flightsPath => {
+      return flightsPath.map(flight => {
+        const flightArrival = allAirports.find(a => a.id === flight.arrivalAirportId);
+        const flightDeparture = allAirports.find(a => a.id === flight.departureAirportId);
+        const flightAirline = allAirlines.find(a => a.id === flight.airlineId);
+        const missingData = !flightArrival
+          || !flightDeparture
+          || !flightAirline;
+
+        const toReturn: FlightPathItem = {
+          ...flight,
+          arrivalAirport: flightArrival!,
+          departureAirport: flightDeparture!,
+          airline: flightAirline!,
+        };
+
+        if (missingData) {
+          console.error('Missing data for flight', toReturn);
+          return null;
+        }
+        return toReturn;
+      })
+      // if missing data, it will be excluded from the final results
+        .filter(Boolean) as FlightPathItem[];
+    });
+  }, [flightsPaths, allAirports, allAirlines]);
 
   return <PageSection>
     <div className="flex flex-col space-y-2">
+      <Link to="/" className="text-secondary flex items-center space-x-1">
+        <ArrowBackIcon className="h-4 fill-secondary w-fit" />
+        <Typography variant="h5">Back</Typography>
+      </Link>
+
       <Typography variant="h3">
         Search Flights
       </Typography>
 
-      <div className="flex flex-col space-y-3">
-        <AirportField
-          label="Departing from"
-          value={departureAirport}
-          inputClassName="w-full"
-          labelClassName="w-1/2 md:w-1/2 lg:w-2/3 min-w-fit"
-          inputProps={{
-            readOnly: true,
-            onClick: () => departureDialog.setIsDialogOpen(true),
-            placeholder: 'Select an airport...',
-          }}
-        />
+      <Typography variant="h4">
+        {' from '}
+        <Link
+          style={{ pointerEvents: departureAirport ? 'inherit' : 'none' }}
+          to={`/airports/${departureAirport?.id}`}
+          className="text-secondary"
+        >
+          {departureCode}
+        </Link>
+        {' to '}
+        <Link
+          style={{ pointerEvents: arrivalAirport ? 'inherit' : 'none' }}
+          to={`/airports/${arrivalAirport?.id}`}
+          className="text-secondary"
+        >
+          {arrivalCode}
+        </Link>
+      </Typography>
 
-        {/* TODO swap airports */}
-
-        <AirportField
-          label="Arriving to"
-          value={arrivalAirport}
-          inputClassName="w-full"
-          labelClassName="w-1/2 md:w-1/2 lg:w-2/3 min-w-fit"
-          inputProps={{
-            readOnly: true,
-            onClick: () => arrivalDialog.setIsDialogOpen(true),
-            placeholder: 'Select an airport...',
-          }}
-        />
-
-        <div className="flex justify-end">
-          <Button
-            variant="contained"
-            color="info"
-            disabled={!arrivalAirport || !departureAirport}
-            className="h-10 w-fit"
-            onClick={goToNextPage}
-          >
-            <Typography variant="h4">Search flights</Typography>
-            <ChevronRightIcon className="h-4 fill-white w-fit" />
-          </Button>
-        </div>
+      <div>
+        {
+          fullFlightsPaths.map((fullFlightPath, i) => (
+            <FlightPathSummaryItem
+              key={i}
+              path={fullFlightPath}
+              divider={i !== fullFlightsPaths.length - 1}
+            />
+          ))
+        }
       </div>
-
-      <SelectAirportDialog
-        onSelect={departureDialog.onSelect}
-        search={departureDialog.search}
-        setSearch={departureDialog.setSearch}
-        options={availableAirports}
-        selectedAirport={departureAirport}
-        dialogProps={{
-          open: departureDialog.isDialogOpen,
-          title: 'Select departure airport',
-          onClose: departureDialog.onCloseDialog,
-        }}
-      />
-      <SelectAirportDialog
-        onSelect={arrivalDialog.onSelect}
-        search={arrivalDialog.search}
-        setSearch={arrivalDialog.setSearch}
-        options={availableAirports}
-        selectedAirport={arrivalAirport}
-        dialogProps={{
-          open: arrivalDialog.isDialogOpen,
-          title: 'Select arrival airport',
-          onClose: arrivalDialog.onCloseDialog,
-        }}
-      />
     </div>
   </PageSection>;
 }

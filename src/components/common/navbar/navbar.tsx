@@ -7,7 +7,7 @@ const customNavbarLinkClasses = `
   block
   rounded
   py-2 pr-4 pl-3 md:p-0
-  text-white md:text-white md:hover:text-primary
+  text-white md:text-white md:hover:text-primary font-bold
   bg-secondary md:bg-transparent
 `;
 
@@ -29,7 +29,7 @@ export const Navbar: FC<NavbarProps> = () => {
   return (
     <nav
       className="
-        bg-gray-800
+        bg-neutral
         border-gray-200 px-2 sm:px-4 py-2.5
       "
     >

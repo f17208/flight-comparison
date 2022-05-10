@@ -4,7 +4,7 @@ import levenshtein from 'js-levenshtein';
 import { Dialog, DialogProps } from '../common/dialog/Dialog';
 import { Input } from '../common/input/Input';
 import { AirportItem, AirportItemProps } from './airport-item';
-import { Airport } from './airports.api';
+import { Airport } from './airports.types';
 import { ClearIcon } from '../common/icons';
 
 export interface SelectAirportProps {

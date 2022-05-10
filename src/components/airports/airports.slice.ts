@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Airport } from './airports.api';
+import { Airport } from './airports.types';
 import { RootState } from '../../app.store';
 
 export type AirportsState = {

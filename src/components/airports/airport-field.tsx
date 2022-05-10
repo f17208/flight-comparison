@@ -1,5 +1,5 @@
 import { DetailedHTMLProps, FC, InputHTMLAttributes, ReactNode } from 'react';
-import { Airport } from './airports.api';
+import { Airport } from './airports.types';
 
 export interface AirportFieldProps {
   value: Airport | null;
@@ -45,7 +45,7 @@ export const AirportField: FC<AirportFieldProps> = ({
           ${inputClassName}
         `}
         type="text"
-        value={value?.codeIata}
+        value={value?.codeIata || ''}
         {...inputProps}
       />
     </div>
