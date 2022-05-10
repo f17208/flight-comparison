@@ -1,7 +1,7 @@
 import { FC, MouseEvent, ReactNode } from 'react';
 import { AirportIcon } from '../common/icons';
 import { Typography } from '../common/typography/Typography';
-import { Airport } from './airports.api';
+import { Airport } from './airports.types';
 
 export interface AirportItemProps {
   airport: Airport;

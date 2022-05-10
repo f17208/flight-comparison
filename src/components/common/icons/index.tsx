@@ -4,4 +4,7 @@ export { ReactComponent as AirlineIcon } from '../../assets/airline.svg';
 export { ReactComponent as AirportIcon } from '../../assets/marker.svg';
 export { ReactComponent as ClearIcon } from '../../assets/clear.svg';
 export { ReactComponent as ChevronRightIcon } from '../../assets/chevron-right.svg';
-export { ReactComponent as BackIcon } from '../../assets/back.svg';
+export { ReactComponent as ArrowBackIcon } from '../../assets/arrow-back.svg';
+export { ReactComponent as ArrowForwardIcon } from '../../assets/arrow-forward.svg';
+export { ReactComponent as ViewMoreIcon } from '../../assets/view.svg';
+export { ReactComponent as FlightIcon } from '../../assets/flight.svg';

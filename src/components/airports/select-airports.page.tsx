@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Airport } from './airports.api';
+import { Airport } from './airports.types';
 import {
   airportsSelector,
   arrivalAirportSelector,
@@ -107,11 +107,11 @@ export function SelectAirportsPage() {
             variant="contained"
             color="info"
             disabled={!arrivalAirport || !departureAirport}
-            className="h-10 w-fit"
+            className="w-fit fill-neutral hover:fill-white"
             onClick={goToNextPage}
           >
-            <Typography variant="h4">Search flights</Typography>
-            <ChevronRightIcon className="h-4 fill-white w-fit" />
+            <Typography variant="h5">Search</Typography>
+            <ChevronRightIcon className="h-4 fill-inherit w-fit" />
           </Button>
         </div>
       </div>

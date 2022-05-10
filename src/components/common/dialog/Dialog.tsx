@@ -52,7 +52,7 @@ export const Dialog: FC<DialogProps> = ({
             <div
               className="
                 flex items-start justify-between
-                p-5
+                pl-3 pt-1 pb-3 pr-1 sm:pl-4 sm:pt-2 sm:pr-2 sm:pb-4
                 border-b border-solid border-slate-200
                 sm:rounded-t
               "
@@ -93,7 +93,7 @@ export const Dialog: FC<DialogProps> = ({
             </div>
 
             {/* Body */}
-            <div className="relative p-6 flex-auto max-h-3/4-vh overflow-auto">
+            <div className="relative p-2 sm:p-6 flex-auto max-h-3/4-vh overflow-auto">
               {body}
             </div>
 

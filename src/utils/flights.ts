@@ -1,5 +1,5 @@
-import { Airport } from '../components/airports/airports.api';
-import { Flight } from '../components/flights/flights.api';
+import { Airport } from '../components/airports/airports.types';
+import { Flight } from '../components/flights/flights.types';
 
 function getSuccessiveAirportsDAG(
   flights: Flight[],

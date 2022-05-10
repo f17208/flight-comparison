@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Airline } from './airlines.api';
+import { Airline } from './airlines.types';
 import { RootState } from '../../app.store';
 
 export type AirlinesState = {

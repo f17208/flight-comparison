@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, FC, useMemo } from 'react';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  color?: 'error' | 'info' | 'default';
+  color?: 'error' | 'info' | 'success' | 'default';
   variant?: 'contained' | 'outlined' | 'text';
 }
 
@@ -17,6 +17,7 @@ export const Button: FC<ButtonProps> = ({
     if (variant === 'text') {
       switch (color) {
         case 'error': return 'text-red-500 hover:text-red-600 disabled:text-red-500';
+        case 'success': return 'text-green-500 hover:text-green-600 disabled:text-green-500';
         case 'info': return 'text-primary hover:text-secondary disabled:text-primary';
         default: return 'text-gray-500 hover:text-gray-600 disabled:text-gray-500';
       }
@@ -26,6 +27,10 @@ export const Button: FC<ButtonProps> = ({
         case 'error': return [
           'border border-solid border-red-500 hover:border-red-600 disabled:border-red-500',
           'text-red-500 hover:text-red-600 disabled:text-red-500',
+        ].join(' ');
+        case 'success': return [
+          'border border-solid border-green-500 hover:border-green-600 disabled:border-green-500',
+          'text-green-500 hover:text-green-600 disabled:text-green-500',
         ].join(' ');
         case 'info': return [
           'border border-primary hover:border-secondary disabled:border-primary',
@@ -40,7 +45,8 @@ export const Button: FC<ButtonProps> = ({
     // contained, default
     switch (color) {
       case 'error': return 'bg-red-500 hover:bg-red-600 disabled:bg-red-500 text-white';
-      case 'info': return 'bg-primary hover:bg-secondary disabled:bg-primary text-white';
+      case 'success': return 'bg-green-500 hover:bg-green-600 disabled:bg-green-500 text-white';
+      case 'info': return 'bg-primary hover:bg-secondary disabled:bg-primary hover:text-white text-neutral';
       default: return 'bg-gray-500 hover:bg-gray-600 disabled:bg-gray-500 text-white';
     }
   }, [variant]);
