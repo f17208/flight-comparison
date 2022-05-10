@@ -20,7 +20,7 @@ import {
   flightsSelector,
   loadingSelector as flightsLoadingSelector,
 } from './flights.slice';
-import { calculateAlternativePaths, enrighFlightWithDetails } from '../../utils/flights';
+import { calculateAlternativePaths, enrighFlightWithDetails, getFlightsPathDetails } from '../../utils/flights';
 import { FlightPathSummaryItem } from './flight-path-summary-item';
 import { airlinesSelector } from '../airlines/airlines.slice';
 import { FlightPathItem } from './flights.types';
@@ -28,6 +28,7 @@ import { FlightPathMap } from './flight-path-map';
 import { Button } from '../common/button/Button';
 import { FlightPathDetails } from './flight-path-details';
 import { Loader } from '../common/loader/loader';
+import { CURRENCY_SYMBOL } from '../../utils/constants';
 
 export function SearchFlights() {
   const dispatch = useDispatch();
@@ -135,15 +136,13 @@ export function SearchFlights() {
           </Typography>
         </div>
         {fullFlightsPaths.length > 0 && (
-          <div>
-            <Typography variant="h5">
-              {fullFlightsPaths.length} possible {
-                fullFlightsPaths.length === 1
-                  ? 'route'
-                  : 'routes'
-              }
-            </Typography>
-          </div>
+          <Typography variant="h5" className="mt-auto">
+            {fullFlightsPaths.length} possible {
+              fullFlightsPaths.length === 1
+                ? 'route'
+                : 'routes'
+            }
+          </Typography>
         )}
       </div>
 
@@ -196,14 +195,35 @@ export function SearchFlights() {
           {fullFlightsPaths[selectedPathIndex] && (
             <div
               className="
-                p-3
                 mb-8
                 bg-slate-100
                 border border-2 border-slate-300 border-t-0
                 rounded-lg rounded-t-none
               "
             >
-              <FlightPathDetails path={fullFlightsPaths[selectedPathIndex]} />
+              <div className="p-3 pb-0">
+                <FlightPathDetails path={fullFlightsPaths[selectedPathIndex]} />
+              </div>
+
+              <div className="mt-4 flex justify-end space-x-3 items-center p-2 bg-slate-200">
+                <Typography variant="subtitle2">
+                  Total: <strong>
+                    {getFlightsPathDetails(fullFlightsPaths[selectedPathIndex]).totalPrice}
+                    {' '}{CURRENCY_SYMBOL}
+                  </strong>
+                </Typography>
+                <Button
+                  variant="contained"
+                  color="success"
+                  className="
+                    ml-auto
+                    px-3
+                  "
+                  onClick={() => alert('Sorry, not implemented :)')}
+                >
+                  <Typography className="font-extrabold">Book now</Typography>
+                </Button>
+              </div>
             </div>
           )}
 

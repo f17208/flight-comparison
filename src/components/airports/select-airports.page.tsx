@@ -105,7 +105,6 @@ export function SelectAirportsPage() {
         search={departureDialog.search}
         setSearch={departureDialog.setSearch}
         options={availableAirports}
-        maxLevenshteinDistance={3}
         selectedAirport={departureAirport}
         dialogProps={{
           open: departureDialog.isDialogOpen,
@@ -118,7 +117,6 @@ export function SelectAirportsPage() {
         search={arrivalDialog.search}
         setSearch={arrivalDialog.setSearch}
         options={availableAirports}
-        maxLevenshteinDistance={2}
         selectedAirport={arrivalAirport}
         dialogProps={{
           open: arrivalDialog.isDialogOpen,

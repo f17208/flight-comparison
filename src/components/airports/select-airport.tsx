@@ -1,11 +1,11 @@
 import { Dispatch, FC, SetStateAction, useMemo } from 'react';
-import levenshtein from 'js-levenshtein';
-
+import { compareTwoStrings } from 'string-similarity';
 import { Dialog, DialogProps } from '../common/dialog/Dialog';
 import { Input } from '../common/input/Input';
 import { AirportItem, AirportItemProps } from './airport-item';
 import { Airport } from './airports.types';
 import { ClearIcon } from '../common/icons';
+import { getAirportFullName } from '../../utils/airports';
 
 export interface SelectAirportProps {
   options: Airport[];
@@ -15,7 +15,6 @@ export interface SelectAirportProps {
   setSearch: (search: string) => void | Dispatch<SetStateAction<string>>;
   selectedAirportProps?: AirportItemProps;
   getOptionsProps?: (option: Airport, index: number) => Omit<AirportItemProps, 'airport'>;
-  maxLevenshteinDistance?: number;
 }
 
 export const SelectAirport: FC<SelectAirportProps> = ({
@@ -26,30 +25,32 @@ export const SelectAirport: FC<SelectAirportProps> = ({
   selectedAirport,
   selectedAirportProps,
   getOptionsProps,
-  maxLevenshteinDistance,
 }) => {
-  const optionsToShow: { airport: Airport; distance: number }[] = useMemo(() => {
+  const optionsToShow: { airport: Airport; similarity: number }[] = useMemo(() => {
     const searchCaseInsensitive = search.toLowerCase();
-    // map options to an array of couples (option, scoreOption)
-    // where scoreOption is the Levenshtein distance between option's codeIata and search
+    // map options to an array of couples (option, similarity)
     const toReturn = options
-      .map(airport => ({
-        airport,
-        distance: levenshtein(airport.codeIata.toLowerCase(), searchCaseInsensitive),
-      }))
+      .map(airport => {
+        const toMatch = getAirportFullName(airport).toLowerCase();
+        const similarity = compareTwoStrings(toMatch, searchCaseInsensitive);
+        return {
+          airport,
+          similarity,
+        };
+      })
       .filter(({ airport }) => {
-        if (!search || !maxLevenshteinDistance) return true;
+        if (!search) return true;
         if (airport.id !== selectedAirport?.id) return true;
         return false;
       });
 
-    // sort options by levenshtein distance
-    toReturn.sort(({ distance: scoreA }, { distance: scoreB }) => {
-      return scoreA < scoreB ? -1 : 1;
+    // sort options by similarity
+    toReturn.sort(({ similarity: scoreA }, { similarity: scoreB }) => {
+      return scoreA > scoreB ? -1 : 1;
     });
 
     return toReturn;
-  }, [options, maxLevenshteinDistance, selectedAirport, search]);
+  }, [options, selectedAirport, search]);
 
   return (
     <div className="flex flex-col space-y-2">
@@ -59,10 +60,10 @@ export const SelectAirport: FC<SelectAirportProps> = ({
             ? (
               <AirportItem
                 airport={selectedAirport}
-                className="bg-secondary text-white fill-white"
+                className="bg-primary"
                 endIcon={(
                   <ClearIcon
-                    className="h-5 w-fit fill-white hover:cursor-pointer"
+                    className="h-5 w-fit fill-inherit hover:cursor-pointer"
                     onClick={() => onSelect(null, false)}
                   />
                 )}
@@ -82,9 +83,6 @@ export const SelectAirport: FC<SelectAirportProps> = ({
       <div>
         {
           optionsToShow
-            .filter(({ distance }) => (
-              !search || !maxLevenshteinDistance || (maxLevenshteinDistance > distance)
-            ))
             .map(({ airport }, i) => {
               return <AirportItem
                 key={airport.id}

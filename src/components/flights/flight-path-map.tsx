@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom';
 import { MarkerIcon } from '../common/icons';
 import { FlightPathItem } from './flights.types';
 import { DEBUG_MAP } from '../../utils/constants';
+import { AirportDetails } from '../airports/airport-details';
 
 interface BoundPolylineProps {
   polyline: LatLngTuple[];
@@ -143,6 +144,7 @@ export const FlightPathMap: FC<FlightPathMapProps> = ({
               <Popup>
                 <Link to={`/airports/${flight.departureAirportId}`}>
                   <strong>{flight.departureAirport?.codeIata}</strong>
+                  <AirportDetails airport={flight.departureAirport} />
                 </Link>
               </Popup>
             </Marker>,
@@ -158,6 +160,7 @@ export const FlightPathMap: FC<FlightPathMapProps> = ({
                 <Popup>
                   <Link to={`/airports/${flight.arrivalAirportId}`}>
                     <strong>{flight.arrivalAirport?.codeIata}</strong>
+                    <AirportDetails airport={flight.arrivalAirport} />
                   </Link>
                 </Popup>
               </Marker>,

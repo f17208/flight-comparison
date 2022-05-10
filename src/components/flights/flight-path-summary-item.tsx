@@ -28,9 +28,9 @@ export const FlightPathSummaryItem: FC<FlightPathSummaryItemProps> = ({
         py-2
       `}
     >
-      <div className="flex flex-row items-center justify-between">
-        <div className="flex flex-col">
-          <Typography className="text-md sm:text-lg md:text-xl text-left w-full sm:w-fit">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
+          <Typography className="text-left w-full sm:w-fit">
             {
               path.length === 1
                 ? 'Single flight,'
@@ -40,15 +40,13 @@ export const FlightPathSummaryItem: FC<FlightPathSummaryItemProps> = ({
             }{' '}
             {airlines.length} {airlines.length === 1 ? 'airline' : 'airlines'}
           </Typography>
+        </div>
+        <div className="flex items-center space-x-2 justify-between">
           <Typography variant="subtitle2">
             <strong>{totalPrice}{CURRENCY_SYMBOL}</strong>
           </Typography>
+          {action && action}
         </div>
-        {action && (
-          <div>
-            {action}
-          </div>
-        )}
       </div>
     </div>
   );
