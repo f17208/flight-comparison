@@ -1,7 +1,10 @@
+import { useTranslation } from 'react-i18next';
+
 import { Logo } from '../icons';
 import { Typography } from '../typography';
 
 export const Loader = () => {
+  const { t } = useTranslation();
   return (
     <div
       className="
@@ -17,7 +20,7 @@ export const Loader = () => {
     >
       <Logo className="w-32 h-auto" />
       <Typography>
-        Loading...
+        {t('loading')}
       </Typography>
     </div>
   );

@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import {
   airlinesSelector,
@@ -27,6 +28,8 @@ export function Airline() {
   const airlines = useSelector(airlinesSelector);
   const airports = useSelector(airportsSelector);
   const flights = useSelector(allFlightsSelector);
+
+  const { t } = useTranslation();
 
   const { airlineId } = useParams();
 
@@ -60,11 +63,11 @@ export function Airline() {
         {airline?.name}
       </Typography>
       <Typography variant="h5" className="text-accent">
-        IATA Prefix: {airline?.codeIataPrefix}
+        {t('iata-prefix')}: {airline?.codeIataPrefix}
       </Typography>
 
       <Typography variant="h4" className="mt-3 text-neutral">
-        Flights:
+        {t('flights')}
       </Typography>
       {
         airlineFullFlights.map(flight => {
