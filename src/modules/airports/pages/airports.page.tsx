@@ -1,5 +1,7 @@
 import { MapContainer, useMap, Marker, Popup, Rectangle, TileLayer } from 'react-leaflet';
 import { FC, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import {
   LatLngTuple,
   polyline as LeafletPolyline,
@@ -7,13 +9,13 @@ import {
 } from 'leaflet';
 
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
+import { Link } from '../../common/link';
 import { Typography } from '../../common/typography';
 import { PageSection } from '../../common/page-section';
 import { airportsSelector } from '../store';
 
-import { DEFAULT_MAP_ZOOM } from '../../../utils/constants';
+import { DEBUG_MAP, ENABLE_MAP_SCROLL_ZOOM } from '../../../utils/constants';
 import { MarkerIcon } from '../../common/icons';
 import { AirportDetails } from '../components';
 
@@ -38,7 +40,6 @@ const BoundCoords: FC<BoundCoordsProps> = ({ coords: polyline, debug }) => {
         color: 'blue',
         weight: 3,
         opacity: debug ? 1 : 0,
-        lineJoin: 'round',
       },
     );
 
@@ -66,12 +67,20 @@ const BoundCoords: FC<BoundCoordsProps> = ({ coords: polyline, debug }) => {
 
 export function Airports() {
   const airports = useSelector(airportsSelector);
+  const { t } = useTranslation();
 
   const coordsToBound = useMemo(() => {
-    let rightMost: number = 0;
-    let topMost: number = 0;
-    let bottomMost: number = 0;
-    let leftMost: number = 0;
+    if (airports.length === 0) {
+      return [
+        [0, 0],
+        [0, 0],
+      ] as LatLngTuple[];
+    }
+
+    let rightMost: number = +airports[0].latitude;
+    let leftMost: number = +airports[0].latitude;
+    let topMost: number = +airports[0].longitude;
+    let bottomMost: number = +airports[0].longitude;
 
     airports.forEach(airport => {
       const lat = +airport.latitude;
@@ -112,15 +121,19 @@ export function Airports() {
   return <PageSection className="p-8">
     <div>
       <Typography variant="h3" className="text-neutral">
-        Airports
+        {t('airports')}
+      </Typography>
+
+      <Typography variant="subtitle2" className="pb-4">
+        {t('airports-page-hint')}
       </Typography>
 
       <MapContainer
         style={{ width: '100%', height: '60vh' }}
         center={mapCenter}
-        zoom={DEFAULT_MAP_ZOOM}
+        scrollWheelZoom={ENABLE_MAP_SCROLL_ZOOM}
       >
-        <BoundCoords coords={coordsToBound} />
+        <BoundCoords coords={coordsToBound} debug={DEBUG_MAP} />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

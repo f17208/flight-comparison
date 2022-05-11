@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useWindowSize } from 'react-use';
 import { HamburgerIcon } from '../icons';
-import { Typography } from '../typography';
+import { Link } from '../link';
 
 const customNavbarLinkClasses = `
   block
@@ -90,10 +90,10 @@ export const Navbar: FC<NavbarProps> = () => {
                 "
               >
                 <option value="it">
-                  <Typography>🇮🇹 ITA</Typography>
+                  🇮🇹 ITA
                 </option>
                 <option value="en">
-                  <Typography>🇬🇧 ENG</Typography>
+                  🇬🇧 ENG
                 </option>
               </select>
             </li>

@@ -7,7 +7,7 @@
   "swap": "Swap",
   "select-departure-airport": "Select departure airport",
   "select-arrival-airport": "Select arrival airport",
-  "iata-prefix": "IATA prefix:",
+  "iata-prefix": "IATA prefix",
   "n-a": "n/a",
   "flights": "Flights",
   "airlines": "Airlines",
@@ -22,12 +22,13 @@
   "search-results": "Search results",
   "view": "view",
   "book-now": "Book now",
-  "not-implemented": "Sorry, not implemented :)",
+  "not-implemented": "Ooops, not implemented! 🙃",
   "total": "Total",
   "from": "From",
   "to": "to",
   "possible-route_one": "possible route",
   "possible-route_other": "possible routes",
   "flights-arriving": "Flights arriving",
-  "flights-departing": "Flights departing"
+  "flights-departing": "Flights departing",
+  "airports-page-hint": "To see the details of an airport, click on its marker on the map and follow the link to the dedicated page"
 }

@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 import { airlinesSelector } from '../store';
 import { AirlineItem } from '../components';

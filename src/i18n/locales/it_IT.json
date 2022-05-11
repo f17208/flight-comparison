@@ -18,16 +18,17 @@
   "single-flight": "Volo singolo",
   "stop-over_one": "{{count}} scalo",
   "stop-over_other": "{{count}} scali",
-  "back-to-search": "Ritorna alla ricerca",
+  "back-to-search": "Torna alla ricerca",
   "search-results": "Risultati della ricerca",
   "view": "vedi",
   "book-now": "Prenota",
-  "not-implemented": "Spiacenti, non è implementato :)",
+  "not-implemented": "Ooops, non è implementato! 🙃",
   "total": "Totale",
   "from": "Da",
   "to": "a",
   "possible-route_one": "percorso possibile",
   "possible-route_other": "percorsi possibili",
   "flights-arriving": "Voli in arrivo",
-  "flights-departing": "Voli in partenza"
+  "flights-departing": "Voli in partenza",
+  "airports-page-hint": "Per vedere i dettagli di un aeroporto, clicca il suo marker sulla mappa e segui il link alla pagina dedicata."
 }

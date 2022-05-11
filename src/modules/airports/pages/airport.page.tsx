@@ -19,7 +19,7 @@ import { allFlightsSelector } from '../../flights/store';
 import { enrighFlightWithDetails } from '../../flights/utils';
 import { FlightPathItem } from '../../flights/types';
 
-import { DEFAULT_MAP_ZOOM } from '../../../utils/constants';
+import { DEFAULT_MAP_ZOOM, ENABLE_MAP_SCROLL_ZOOM } from '../../../utils/constants';
 
 export function Airport() {
   const { t } = useTranslation();
@@ -65,6 +65,7 @@ export function Airport() {
           style={{ width: '100%', height: '40vh' }}
           center={airportCoordinates}
           zoom={DEFAULT_MAP_ZOOM}
+          scrollWheelZoom={ENABLE_MAP_SCROLL_ZOOM}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

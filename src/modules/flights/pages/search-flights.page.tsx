@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useDebounce } from 'react-use';
 import { useTranslation } from 'react-i18next';
 
@@ -35,6 +35,7 @@ import { PageSection } from '../../common/page-section/page-section.ui';
 import { Typography } from '../../common/typography';
 import { Button } from '../../common/button';
 import { Loader } from '../../common/loader';
+import { Link } from '../../common/link';
 
 import { airlinesSelector } from '../../airlines/store';
 

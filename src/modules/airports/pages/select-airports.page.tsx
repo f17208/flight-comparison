@@ -21,7 +21,7 @@ import { PageSection } from '../../common/page-section';
 import { Typography } from '../../common/typography';
 import { ChevronRightIcon, SwapIcon } from '../../common/icons';
 
-export function SelectAirportsPage() {
+export function SelectAirports() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
