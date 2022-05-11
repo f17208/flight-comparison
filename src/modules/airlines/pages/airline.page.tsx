@@ -16,7 +16,7 @@ import {
 } from '../../flights/store';
 
 import { Typography } from '../../common/typography';
-import { PageSection } from '../../common/layouts';
+import { PageSection } from '../../common/page-section';
 import { Loader } from '../../common/loader';
 
 import { enrighFlightWithDetails } from '../../flights/utils';

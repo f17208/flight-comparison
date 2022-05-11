@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Typography } from '../../common/typography';
-import { PageSection } from '../../common/layouts';
+import { PageSection } from '../../common/page-section';
 import { airportsSelector } from '../store';
 
 import { DEFAULT_MAP_ZOOM } from '../../../utils/constants';

@@ -7,7 +7,7 @@ import { LatLngExpression } from 'leaflet';
 import { airportsSelector } from '../store';
 
 import { Typography } from '../../common/typography';
-import { PageSection } from '../../common/layouts';
+import { PageSection } from '../../common/page-section';
 import { MarkerIcon } from '../../common/icons';
 
 import { AirportDetails } from '../components';

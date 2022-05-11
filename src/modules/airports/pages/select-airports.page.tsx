@@ -16,7 +16,7 @@ import { SelectAirportDialog, AirportField } from '../components';
 import { useSelectAirportDialog } from '../hooks';
 
 import { Button } from '../../common/button';
-import { PageSection } from '../../common/layouts';
+import { PageSection } from '../../common/page-section';
 import { Typography } from '../../common/typography';
 import { ChevronRightIcon, SwapIcon } from '../../common/icons';
 

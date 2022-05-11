@@ -30,7 +30,7 @@ import {
 } from '../../airports/store';
 
 import { ArrowBackIcon, ViewMoreIcon } from '../../common/icons';
-import { PageSection } from '../../common/layouts';
+import { PageSection } from '../../common/page-section';
 import { Typography } from '../../common/typography';
 import { Button } from '../../common/button';
 import { Loader } from '../../common/loader';
