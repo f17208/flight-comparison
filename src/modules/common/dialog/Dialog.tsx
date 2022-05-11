@@ -1,8 +1,8 @@
 import { FC, ReactNode, useState } from 'react';
-import { Button, ButtonProps } from '../button/Button';
-import { Typography } from '../typography/Typography';
+import { Typography } from '../typography/typography';
+import { Button, ButtonProps } from '../button/button';
 
-import './Dialog.css';
+import './dialog.css';
 
 export interface DialogProps {
   open: boolean;

@@ -2,8 +2,6 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Note to reviewers
-
 All icons were made with [Affinity Designer](https://affinity.serif.com/it/designer).
 
 ## Running the project locally

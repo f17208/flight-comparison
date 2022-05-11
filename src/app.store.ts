@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 
-import flightsReducer from './modules/flights/flights.slice';
-import airlinesReducer from './modules/airlines/airlines.slice';
-import airportsReducer from './modules/airports/airports.slice';
+import flightsReducer from './modules/flights/store/flights.slice';
+import airlinesReducer from './modules/airlines/store/airlines.slice';
+import airportsReducer from './modules/airports/store/airports.slice';
 
-import flightsSaga from './modules/flights/flights.saga';
-import airlinesSaga from './modules/airlines/airlines.saga';
-import airportsSaga from './modules/airports/airports.saga';
+import flightsSaga from './modules/flights/store/flights.saga';
+import airlinesSaga from './modules/airlines/store/airlines.saga';
+import airportsSaga from './modules/airports/store/airports.saga';
 
 const sagaMiddleware = createSagaMiddleware();
 export const store = configureStore({
