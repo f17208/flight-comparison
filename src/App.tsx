@@ -4,20 +4,20 @@ import { useDebounce } from 'react-use';
 
 import { Navbar } from './modules/common/navbar/navbar';
 
-import { Airports } from './modules/airports/airports.page';
-import { Airlines } from './modules/airlines/airlines.page';
-import { SearchFlights } from './modules/flights/search-flights.page';
-import { SelectAirportsPage } from './modules/airports/select-airports.page';
-import { Airport } from './modules/airports/airport.page';
-import { Airline } from './modules/airlines/airline.page';
+import { Airports } from './modules/airports/pages/airports.page';
+import { Airlines } from './modules/airlines/pages/airlines.page';
+import { SearchFlights } from './modules/flights/pages/search-flights.page';
+import { SelectAirportsPage } from './modules/airports/pages/select-airports.page';
+import { Airport } from './modules/airports/pages/airport.page';
+import { Airline } from './modules/airlines/pages/airline.page';
 import { Loader } from './modules/common/loader/loader';
 
-import { sagaActions as airportsSaga } from './modules/airports/airports.saga';
-import { sagaActions as airlinesSaga } from './modules/airlines/airlines.saga';
-import { sagaActions as flightsSaga } from './modules/flights/flights.saga';
-import { loadingSelector as airportsLoadingSelector } from './modules/airports/airports.slice';
-import { loadingSelector as airlinesLoadingSelector } from './modules/airlines/airlines.slice';
-import { loadingAllSelector } from './modules/flights/flights.slice';
+import { sagaActions as airportsSaga } from './modules/airports/store/airports.saga';
+import { sagaActions as airlinesSaga } from './modules/airlines/store/airlines.saga';
+import { sagaActions as flightsSaga } from './modules/flights/store/flights.saga';
+import { loadingSelector as airportsLoadingSelector } from './modules/airports/store/airports.slice';
+import { loadingSelector as airlinesLoadingSelector } from './modules/airlines/store/airlines.slice';
+import { loadingAllSelector } from './modules/flights/store/flights.slice';
 
 import './App.css';
 
