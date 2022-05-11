@@ -12,6 +12,7 @@ export { ReactComponent as ArrowBackIcon } from '../../assets/arrow-back.svg';
 export { ReactComponent as ArrowForwardIcon } from '../../assets/arrow-forward.svg';
 export { ReactComponent as ViewMoreIcon } from '../../assets/view.svg';
 export { ReactComponent as FlightIcon } from '../../assets/flight.svg';
+export { ReactComponent as SwapIcon } from '../../assets/swap.svg';
 
 export const MarkerIcon = new Icon({
   iconUrl: markerIconPng,

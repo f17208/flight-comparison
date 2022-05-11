@@ -6,6 +6,7 @@ import { AirportItem, AirportItemProps } from './airport-item';
 import { Airport } from './airports.types';
 import { ClearIcon } from '../common/icons';
 import { getAirportFullName } from './airports.utils';
+import { quantile } from '../../utils/math';
 
 export interface SelectAirportProps {
   options: Airport[];
@@ -14,7 +15,6 @@ export interface SelectAirportProps {
   search: string;
   setSearch: (search: string) => void | Dispatch<SetStateAction<string>>;
   selectedAirportProps?: AirportItemProps;
-  getOptionsProps?: (option: Airport, index: number) => Omit<AirportItemProps, 'airport'>;
 }
 
 export const SelectAirport: FC<SelectAirportProps> = ({
@@ -24,7 +24,6 @@ export const SelectAirport: FC<SelectAirportProps> = ({
   setSearch,
   selectedAirport,
   selectedAirportProps,
-  getOptionsProps,
 }) => {
   const optionsToShow: { airport: Airport; similarity: number }[] = useMemo(() => {
     const searchCaseInsensitive = search.toLowerCase();
@@ -51,6 +50,13 @@ export const SelectAirport: FC<SelectAirportProps> = ({
 
     return toReturn;
   }, [options, selectedAirport, search]);
+
+  const quantileValue = useMemo(() => {
+    return quantile(
+      optionsToShow.map(opt => opt.similarity),
+      0.8,
+    );
+  }, [optionsToShow]);
 
   return (
     <div className="flex flex-col space-y-2">
@@ -83,19 +89,15 @@ export const SelectAirport: FC<SelectAirportProps> = ({
       <div>
         {
           optionsToShow
-            .map(({ airport }, i) => {
+            .map(({ airport, similarity }) => {
+              const shouldHighlight = similarity > quantileValue
+                && similarity >= 0.1;
               return <AirportItem
                 key={airport.id}
                 airport={airport}
                 onClick={() => onSelect(airport)}
                 className="my-1"
-                {
-                  ...(
-                    getOptionsProps
-                      ? getOptionsProps(airport, i)
-                      : {}
-                  )
-                }
+                highlight={shouldHighlight}
               />;
             })
         }
@@ -111,6 +113,7 @@ export interface SelectAirportDialogProps extends SelectAirportProps {
 export const SelectAirportDialog: FC<SelectAirportDialogProps> = ({
   dialogProps: {
     title,
+    open,
     onClose,
     ...otherDialogProps
   },
@@ -121,6 +124,7 @@ export const SelectAirportDialog: FC<SelectAirportDialogProps> = ({
     <Dialog
       title={title || 'Select Airport'}
       {...otherDialogProps}
+      open={open}
       onClose={onClose}
       body={
         <SelectAirport onSelect={onSelect} {...props} />

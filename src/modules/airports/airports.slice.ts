@@ -35,6 +35,15 @@ export const airportsSlice = createSlice({
     setArrivalAirport: (state, action: PayloadAction<Airport | null>) => {
       state.arrivalAirport = action.payload;
     },
+    swapDepartureAndArrivalAirports: (state) => {
+      const { departureAirport, arrivalAirport } = state;
+      const newState = {
+        ...state,
+        departureAirport: arrivalAirport,
+        arrivalAirport: departureAirport,
+      };
+      Object.assign(state, newState);
+    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
@@ -48,6 +57,7 @@ export const airportsSlice = createSlice({
 export const {
   setAirports,
   setError,
+  swapDepartureAndArrivalAirports,
   setLoading,
   setDepartureAirport,
   setArrivalAirport,

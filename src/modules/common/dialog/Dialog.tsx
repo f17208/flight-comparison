@@ -19,6 +19,7 @@ export const Dialog: FC<DialogProps> = ({
   body,
   actions,
 }) => {
+  if (!open) return null;
   return (
     <div>
       <div

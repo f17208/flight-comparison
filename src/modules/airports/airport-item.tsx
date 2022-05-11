@@ -10,6 +10,7 @@ export interface AirportItemProps {
   button?: boolean;
   className?: string;
   endIcon?: ReactNode;
+  highlight?: boolean;
 }
 
 export const AirportItem: FC<AirportItemProps> = ({
@@ -18,6 +19,7 @@ export const AirportItem: FC<AirportItemProps> = ({
   className,
   button = true,
   endIcon,
+  highlight,
 }) => {
   const airportFullName = useMemo(() => {
     return getAirportFullName(airport);
@@ -31,22 +33,27 @@ export const AirportItem: FC<AirportItemProps> = ({
         flex items-center justify-between
         w-full
         py-1 pr-4
-        border
+        border border-l-2
         h-10
         rounded-lg
         cursor-default
         text-neutral fill-neutral
+        ${highlight ? 'border-l-primary' : 'border-l-gray'}
         ${(button || onClick) ? 'hover:bg-secondary hover:text-white hover:fill-white cursor-pointer' : ''}
         ${className || ''}
       `}
     >
-      <div className="flex">
+      <div className="flex overflow-hidden">
         <AirportIcon className="h-6 w-auto mx-2 fill-inherit" />
-        <div className="flex flex-col">
-          <Typography variant="h4" className="text-inherit font-inherit">
-            {airportFullName}
-          </Typography>
-        </div>
+        <Typography
+          variant="h4"
+          className="
+            text-inherit font-inherit
+            whitespace-nowrap overflow-hidden text-ellipsis
+          "
+        >
+          {airportFullName}
+        </Typography>
       </div>
 
       {endIcon && (

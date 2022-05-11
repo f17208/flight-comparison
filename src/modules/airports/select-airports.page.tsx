@@ -9,6 +9,7 @@ import {
   departureAirportSelector,
   setArrivalAirport,
   setDepartureAirport,
+  swapDepartureAndArrivalAirports,
 } from './airports.slice';
 import { SelectAirportDialog } from './select-airport';
 import { useSelectAirportDialog } from './select-airport.hooks';
@@ -17,7 +18,7 @@ import { AirportField } from './airport-field';
 import { Button } from '../common/button/Button';
 import { PageSection } from '../common/layout/PageSection';
 import { Typography } from '../common/typography/Typography';
-import { ChevronRightIcon } from '../common/icons';
+import { ChevronRightIcon, SwapIcon } from '../common/icons';
 
 export function SelectAirportsPage() {
   const dispatch = useDispatch();
@@ -72,8 +73,6 @@ export function SelectAirportsPage() {
           }}
         />
 
-        {/* TODO swap airports */}
-
         <AirportField
           label="Arriving to"
           value={arrivalAirport}
@@ -86,12 +85,21 @@ export function SelectAirportsPage() {
           }}
         />
 
-        <div className="flex justify-end">
+        <div className="flex justify-end space-x-4">
+          <Button
+            variant="outlined"
+            onClick={() => dispatch(swapDepartureAndArrivalAirports())}
+            disabled={!arrivalAirport && !departureAirport}
+          >
+            <Typography variant="h5">Swap</Typography>
+            <SwapIcon className="h-4 fill-inherit text-inherit w-fit" />
+          </Button>
+
           <Button
             variant="contained"
             color="info"
             disabled={!arrivalAirport || !departureAirport}
-            className="w-fit fill-neutral hover:fill-white py-1"
+            className="w-fit py-1"
             onClick={goToNextPage}
           >
             <Typography variant="h5">Search</Typography>

@@ -46,12 +46,11 @@ describe('Fetch all flights', () => {
   });
 });
 
-
 describe('Fetch search flights', () => {
   it('saga flow should be correct', () => {
-    const departureCode = "PSA";
-    const arrivalCode = "MXP";
-    const gen = fetchSearchFlightsSaga({ payload: { departureCode, arrivalCode } });
+    const departureCode = 'PSA';
+    const arrivalCode = 'MXP';
+    const gen = fetchSearchFlightsSaga({ payload: { departureCode, arrivalCode } });
 
     const mockedFlights: Flight[] = [
       {
