@@ -16,7 +16,10 @@ export const store = configureStore({
     Airlines: airlinesReducer,
     Airports: airportsReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    immutableCheck: { warnAfter: 128 },
+    serializableCheck: { warnAfter: 128 },
+  }).concat(sagaMiddleware),
 });
 
 sagaMiddleware.run(flightsSaga);
