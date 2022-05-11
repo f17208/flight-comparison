@@ -2,7 +2,7 @@ import { FC, ReactNode, useState } from 'react';
 import { Typography } from '../typography';
 import { Button, ButtonProps } from '../button';
 
-import './dialog.component.css';
+import './dialog.ui.css';
 
 export interface DialogProps {
   open: boolean;
