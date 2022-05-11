@@ -16,11 +16,11 @@ import {
 } from '../../flights/store';
 
 import { Typography } from '../../common/typography';
-import { PageSection } from '../../common/layout';
+import { PageSection } from '../../common/layouts';
 import { Loader } from '../../common/loader';
 
 import { enrighFlightWithDetails } from '../../flights/utils';
-import { FlightItem } from '../../flights/components/flight-item.ui';
+import { FlightItem } from '../../flights/components';
 import { FlightPathItem } from '../../flights/types';
 
 export function Airline() {
