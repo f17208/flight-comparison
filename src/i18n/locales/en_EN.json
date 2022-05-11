@@ -27,5 +27,7 @@
   "from": "From",
   "to": "to",
   "possible-route_one": "possible route",
-  "possible-route_other": "possible routes"
+  "possible-route_other": "possible routes",
+  "flights-arriving": "Flights arriving",
+  "flights-departing": "Flights departing"
 }

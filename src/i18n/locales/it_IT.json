@@ -27,5 +27,7 @@
   "from": "Da",
   "to": "a",
   "possible-route_one": "percorso possibile",
-  "possible-route_other": "percorsi possibili"
+  "possible-route_other": "percorsi possibili",
+  "flights-arriving": "Voli in arrivo",
+  "flights-departing": "Voli in partenza"
 }

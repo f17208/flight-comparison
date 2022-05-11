@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { LatLngExpression } from 'leaflet';
+import { useTranslation } from 'react-i18next';
 
 import { airportsSelector } from '../store';
 
@@ -21,6 +22,7 @@ import { FlightPathItem } from '../../flights/types';
 import { DEFAULT_MAP_ZOOM } from '../../../utils/constants';
 
 export function Airport() {
+  const { t } = useTranslation();
   const airlines = useSelector(airlinesSelector);
   const airports = useSelector(airportsSelector);
   const flights = useSelector(allFlightsSelector);
@@ -91,7 +93,18 @@ export function Airport() {
       >
         <div>
           <Typography variant="h4" className="mt-3 text-neutral">
-            Flights departing
+            {t('flights-arriving')}
+          </Typography>
+          {
+            airportFullFlightsArriving.map(flight => {
+              return <FlightItem key={flight.id} flight={flight} divider />;
+            })
+          }
+        </div>
+
+        <div>
+          <Typography variant="h4" className="mt-3 text-neutral">
+            {t('flights-departing')}
           </Typography>
           {
             airportFullFlightsDeparting.map((flight, i) => {
@@ -100,17 +113,6 @@ export function Airport() {
                 flight={flight}
                 divider={i !== airportFullFlightsDeparting.length - 1}
               />;
-            })
-          }
-        </div>
-
-        <div>
-          <Typography variant="h4" className="mt-3 text-neutral">
-            Flights arriving
-          </Typography>
-          {
-            airportFullFlightsArriving.map(flight => {
-              return <FlightItem key={flight.id} flight={flight} divider />;
             })
           }
         </div>
