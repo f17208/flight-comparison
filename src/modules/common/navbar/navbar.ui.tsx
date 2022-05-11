@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useWindowSize } from 'react-use';
-import { HamburgerIcon } from '../icons/icons';
+import { HamburgerIcon } from '../icons';
 
 const customNavbarLinkClasses = `
   block

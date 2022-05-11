@@ -1,1 +1,1 @@
-export * from './airline-item';
+export * from './airline-item.ui';

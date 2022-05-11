@@ -1,5 +1,5 @@
-import { Logo } from '../icons/icons';
-import { Typography } from '../typography/typography';
+import { Logo } from '../icons';
+import { Typography } from '../typography';
 
 export const Loader = () => {
   return (

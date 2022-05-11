@@ -20,7 +20,7 @@ import { PageSection } from '../../common/layout';
 import { Loader } from '../../common/loader';
 
 import { enrighFlightWithDetails } from '../../flights/utils';
-import { FlightItem } from '../../flights/components/flight-item';
+import { FlightItem } from '../../flights/components/flight-item.ui';
 import { FlightPathItem } from '../../flights/types';
 
 export function Airline() {

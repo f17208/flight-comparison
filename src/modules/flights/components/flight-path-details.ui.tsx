@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { FlightItem } from './flight-item';
+import { FlightItem } from './flight-item.ui';
 import { Typography } from '../../common/typography';
 import { FlightPathItem } from '../types';
 

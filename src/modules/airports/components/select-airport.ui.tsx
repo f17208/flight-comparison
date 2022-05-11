@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction, useMemo } from 'react';
 import { compareTwoStrings } from 'string-similarity';
 
-import { AirportItem, AirportItemProps } from './airport-item';
+import { AirportItem, AirportItemProps } from './airport-item.ui';
 
 import { Airport } from '../types';
 import { getAirportFullName } from '../utils';
