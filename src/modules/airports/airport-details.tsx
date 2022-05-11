@@ -1,5 +1,5 @@
 import { FC, useMemo } from 'react';
-import { getAirportDetailsFromIATA } from '../../utils/airports';
+import { getAirportDetailsFromIATA } from './airports.utils';
 import { Typography } from '../common/typography/Typography';
 import { Airport } from './airports.types';
 

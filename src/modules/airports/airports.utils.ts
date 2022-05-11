@@ -1,5 +1,5 @@
-import { Airport, AirportDetails } from '../modules/airports/airports.types';
-import AirportsJSON from '../data/airports.json';
+import { Airport, AirportDetails } from './airports.types';
+import AirportsJSON from '../../data/airports.json';
 
 export function getAirportDetailsFromIATA(iataCode: string) {
   return (AirportsJSON as AirportDetails[])

@@ -1,5 +1,5 @@
 import { FC, MouseEvent, ReactNode, useMemo } from 'react';
-import { getAirportFullName } from '../../utils/airports';
+import { getAirportFullName } from './airports.utils';
 import { AirportIcon } from '../common/icons';
 import { Typography } from '../common/typography/Typography';
 import { Airport } from './airports.types';
