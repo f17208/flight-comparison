@@ -2,7 +2,8 @@ import { Route, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDebounce } from 'react-use';
 
-import { Navbar } from './modules/common/navbar/navbar';
+import { Navbar } from './modules/common/navbar';
+import { Loader } from './modules/common/loader';
 
 import { Airports } from './modules/airports/pages/airports.page';
 import { Airlines } from './modules/airlines/pages/airlines.page';
@@ -10,7 +11,6 @@ import { SearchFlights } from './modules/flights/pages/search-flights.page';
 import { SelectAirportsPage } from './modules/airports/pages/select-airports.page';
 import { Airport } from './modules/airports/pages/airport.page';
 import { Airline } from './modules/airlines/pages/airline.page';
-import { Loader } from './modules/common/loader/loader';
 
 import { sagaActions as airportsSaga } from './modules/airports/store/airports.saga';
 import { sagaActions as airlinesSaga } from './modules/airlines/store/airlines.saga';

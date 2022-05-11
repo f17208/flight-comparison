@@ -1,6 +1,6 @@
-import { Airline } from '../../airlines/types/airlines.types';
-import { Airport } from '../../airports/types/airports.types';
-import { Flight, FlightPathItem } from '../types/flights.types';
+import { Airline } from '../../airlines/types';
+import { Airport } from '../../airports/types';
+import { Flight, FlightPathItem } from '../types';
 
 function getSuccessiveAirportsDAG(
   flights: Flight[],

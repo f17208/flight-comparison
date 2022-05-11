@@ -4,17 +4,21 @@ import { useParams } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { LatLngExpression } from 'leaflet';
 
-import { Typography } from '../../common/typography/typography';
-import { PageSection } from '../../common/layout/page-section';
-import { airportsSelector } from '../store/airports.slice';
-import { DEFAULT_MAP_ZOOM } from '../../../utils/constants';
+import { airportsSelector } from '../store';
+
+import { Typography } from '../../common/typography';
+import { PageSection } from '../../common/layout';
 import { MarkerIcon } from '../../common/icons/icons';
-import { AirportDetails } from '../components/airport-details';
-import { FlightItem } from '../../flights/components/flight-item';
-import { airlinesSelector } from '../../airlines/store/airlines.slice';
-import { allFlightsSelector } from '../../flights/store/flights.slice';
-import { enrighFlightWithDetails } from '../../flights/utils/flights.utils';
-import { FlightPathItem } from '../../flights/types/flights.types';
+
+import { AirportDetails } from '../components';
+import { FlightItem } from '../../flights/components';
+import { airlinesSelector } from '../../airlines/store';
+
+import { allFlightsSelector } from '../../flights/store';
+import { enrighFlightWithDetails } from '../../flights/utils';
+import { FlightPathItem } from '../../flights/types';
+
+import { DEFAULT_MAP_ZOOM } from '../../../utils/constants';
 
 export function Airport() {
   const airlines = useSelector(airlinesSelector);

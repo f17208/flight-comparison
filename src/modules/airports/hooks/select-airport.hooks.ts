@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Airport } from '../types/airports.types';
+import { Airport } from '../types';
 
 export const useSelectAirportDialog = (
   selectedAirport: Airport | null,

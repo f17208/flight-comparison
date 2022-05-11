@@ -9,13 +9,13 @@ import {
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Typography } from '../../common/typography/typography';
-import { PageSection } from '../../common/layout/page-section';
-import { airportsSelector } from '../store/airports.slice';
+import { Typography } from '../../common/typography';
+import { PageSection } from '../../common/layout';
+import { airportsSelector } from '../store';
 
 import { DEFAULT_MAP_ZOOM } from '../../../utils/constants';
-import { MarkerIcon } from '../../common/icons/icons';
-import { AirportDetails } from '../components/airport-details';
+import { MarkerIcon } from '../../common/icons';
+import { AirportDetails } from '../components';
 
 interface BoundCoordsProps {
   coords: LatLngTuple[];

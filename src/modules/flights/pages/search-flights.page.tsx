@@ -3,31 +3,40 @@ import { Link, useParams } from 'react-router-dom';
 import { useDebounce } from 'react-use';
 
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowBackIcon, ViewMoreIcon } from '../../common/icons/icons';
-import { PageSection } from '../../common/layout/page-section';
-import { Typography } from '../../common/typography/typography';
 
-import { sagaActions as flightsSagaActions } from '../store/flights.saga';
+import {
+  flightsSelector,
+  sagaActions as flightsSagaActions,
+  loadingSelector as flightsLoadingSelector,
+} from '../store';
+import {
+  FlightPathSummaryItem,
+  FlightPathMap,
+  FlightPathDetails,
+} from '../components';
+
+import { FlightPathItem } from '../types';
+import {
+  calculateAlternativePaths,
+  enrighFlightWithDetails,
+  getFlightsPathDetails,
+} from '../utils';
 
 import {
   airportsSelector,
   loadingSelector as airportsLoadingSelector,
   setArrivalAirport,
   setDepartureAirport,
-} from '../../airports/store/airports.slice';
+} from '../../airports/store';
 
-import {
-  flightsSelector,
-  loadingSelector as flightsLoadingSelector,
-} from '../store/flights.slice';
-import { calculateAlternativePaths, enrighFlightWithDetails, getFlightsPathDetails } from '../utils/flights.utils';
-import { FlightPathSummaryItem } from '../components/flight-path-summary-item';
-import { airlinesSelector } from '../../airlines/store/airlines.slice';
-import { FlightPathItem } from '../types/flights.types';
-import { FlightPathMap } from '../components/flight-path-map';
-import { Button } from '../../common/button/button';
-import { FlightPathDetails } from '../components/flight-path-details';
-import { Loader } from '../../common/loader/loader';
+import { ArrowBackIcon, ViewMoreIcon } from '../../common/icons';
+import { PageSection } from '../../common/layout';
+import { Typography } from '../../common/typography';
+import { Button } from '../../common/button';
+import { Loader } from '../../common/loader';
+
+import { airlinesSelector } from '../../airlines/store';
+
 import { CURRENCY_SYMBOL } from '../../../utils/constants';
 
 export function SearchFlights() {

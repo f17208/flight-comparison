@@ -1,4 +1,4 @@
-import { Airport, AirportDetails } from '../types/airports.types';
+import { Airport, AirportDetails } from '../types';
 import AirportsJSON from '../../../data/airports.json';
 
 export function getAirportDetailsFromIATA(iataCode: string) {

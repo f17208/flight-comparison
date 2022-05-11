@@ -1,10 +1,11 @@
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Typography } from '../../common/typography/typography';
-import { PageSection } from '../../common/layout/page-section';
-import { airlinesSelector } from '../store/airlines.slice';
-import { AirlineItem } from '../components/airline-item';
+import { airlinesSelector } from '../store';
+import { AirlineItem } from '../components';
+
+import { Typography } from '../../common/typography';
+import { PageSection } from '../../common/layout';
 
 export function Airlines() {
   const airlines = useSelector(airlinesSelector);

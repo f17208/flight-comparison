@@ -1,11 +1,14 @@
 import { Dispatch, FC, SetStateAction, useMemo } from 'react';
 import { compareTwoStrings } from 'string-similarity';
-import { Dialog, DialogProps } from '../../common/dialog/dialog';
-import { Input } from '../../common/input/input';
+
 import { AirportItem, AirportItemProps } from './airport-item';
-import { Airport } from '../types/airports.types';
-import { ClearIcon } from '../../common/icons/icons';
-import { getAirportFullName } from '../utils/airports.utils';
+
+import { Airport } from '../types';
+import { getAirportFullName } from '../utils';
+
+import { Dialog, DialogProps } from '../../common/dialog';
+import { Input } from '../../common/input';
+import { ClearIcon } from '../../common/icons';
 import { quantile } from '../../../utils/math';
 
 export interface SelectAirportProps {

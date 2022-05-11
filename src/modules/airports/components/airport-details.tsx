@@ -1,7 +1,7 @@
 import { FC, useMemo } from 'react';
-import { getAirportDetailsFromIATA } from '../utils/airports.utils';
-import { Typography } from '../../common/typography/typography';
-import { Airport } from '../types/airports.types';
+import { Typography } from '../../common/typography';
+import { Airport } from '../types';
+import { getAirportDetailsFromIATA } from '../utils';
 
 export interface AirportDetailsProps {
   airport: Airport;

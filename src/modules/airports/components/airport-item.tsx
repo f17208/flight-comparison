@@ -1,8 +1,8 @@
 import { FC, MouseEvent, ReactNode, useMemo } from 'react';
-import { getAirportFullName } from '../utils/airports.utils';
+import { Airport } from '../types';
+import { getAirportFullName } from '../utils';
 import { AirportIcon } from '../../common/icons';
-import { Typography } from '../../common/typography/typography';
-import { Airport } from '../types/airports.types';
+import { Typography } from '../../common/typography';
 
 export interface AirportItemProps {
   airport: Airport;

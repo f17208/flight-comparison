@@ -1,6 +1,6 @@
 import { DetailedHTMLProps, FC, InputHTMLAttributes, ReactNode, useMemo } from 'react';
-import { getAirportDetailsFromIATA } from '../utils/airports.utils';
-import { Airport } from '../types/airports.types';
+import { getAirportDetailsFromIATA } from '../utils';
+import { Airport } from '../types';
 
 export interface AirportFieldProps {
   value: Airport | null;

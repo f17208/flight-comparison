@@ -1,8 +1,8 @@
 import { AxiosError } from 'axios';
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { getAirlines } from '../api/airlines.api';
+import { getAirlines } from '../api';
 import { setAirlines, setError, setLoading } from './airlines.slice';
-import { Airline } from '../types/airlines.types';
+import { Airline } from '../types';
 
 export const sagaActions = {
   FETCH_ALL_AIRLINES: 'FETCH_ALL_AIRLINES',

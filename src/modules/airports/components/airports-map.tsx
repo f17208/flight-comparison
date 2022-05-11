@@ -8,9 +8,10 @@ import {
   LatLng as LeafletLatLng,
 } from 'leaflet';
 
+import { Airport } from '../types';
+
 import { DEFAULT_MAP_ZOOM } from '../../../utils/constants';
-import { MarkerIcon } from '../../common/icons/icons';
-import { Airport } from '../types/airports.types';
+import { MarkerIcon } from '../../common/icons';
 
 interface BoundCoordsProps {
   coords: LatLngTuple[];

@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Airport } from '../types/airports.types';
+import { Airport } from '../types';
 import {
   airportsSelector,
   arrivalAirportSelector,
@@ -10,15 +10,15 @@ import {
   setArrivalAirport,
   setDepartureAirport,
   swapDepartureAndArrivalAirports,
-} from '../store/airports.slice';
-import { SelectAirportDialog } from '../components/select-airport';
-import { useSelectAirportDialog } from '../hooks/select-airport.hooks';
-import { AirportField } from '../components/airport-field';
+} from '../store';
 
-import { Button } from '../../common/button/button';
-import { PageSection } from '../../common/layout/page-section';
-import { Typography } from '../../common/typography/typography';
-import { ChevronRightIcon, SwapIcon } from '../../common/icons/icons';
+import { SelectAirportDialog, AirportField } from '../components';
+import { useSelectAirportDialog } from '../hooks';
+
+import { Button } from '../../common/button';
+import { PageSection } from '../../common/layout';
+import { Typography } from '../../common/typography';
+import { ChevronRightIcon, SwapIcon } from '../../common/icons';
 
 export function SelectAirportsPage() {
   const dispatch = useDispatch();

@@ -15,10 +15,10 @@ import {
 } from 'react-leaflet';
 import { Link } from 'react-router-dom';
 
-import { MarkerIcon } from '../../common/icons/icons';
-import { FlightPathItem } from '../types/flights.types';
+import { MarkerIcon } from '../../common/icons';
+import { FlightPathItem } from '../types';
 import { DEBUG_MAP } from '../../../utils/constants';
-import { AirportDetails } from '../../airports/components/airport-details';
+import { AirportDetails } from '../../airports/components';
 
 interface BoundPolylineProps {
   polyline: LatLngTuple[];

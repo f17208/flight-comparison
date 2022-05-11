@@ -2,25 +2,26 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { Typography } from '../../common/typography/typography';
-import { PageSection } from '../../common/layout/page-section';
 import {
   airlinesSelector,
   loadingSelector as airlinesLoadingSelector,
-} from '../store/airlines.slice';
+} from '../store';
 import {
   airportsSelector,
   loadingSelector as airportsLoadingSelector,
-} from '../../airports/store/airports.slice';
+} from '../../airports/store';
 import {
   allFlightsSelector,
   loadingAllSelector,
-} from '../../flights/store/flights.slice';
+} from '../../flights/store';
 
-import { Loader } from '../../common/loader/loader';
-import { enrighFlightWithDetails } from '../../flights/utils/flights.utils';
+import { Typography } from '../../common/typography';
+import { PageSection } from '../../common/layout';
+import { Loader } from '../../common/loader';
+
+import { enrighFlightWithDetails } from '../../flights/utils';
 import { FlightItem } from '../../flights/components/flight-item';
-import { FlightPathItem } from '../../flights/types/flights.types';
+import { FlightPathItem } from '../../flights/types';
 
 export function Airline() {
   const airlines = useSelector(airlinesSelector);

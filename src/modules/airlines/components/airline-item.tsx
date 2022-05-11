@@ -1,7 +1,7 @@
 import { FC, MouseEvent } from 'react';
-import { AirlineIcon } from '../../common/icons/icons';
-import { Typography } from '../../common/typography/typography';
-import { Airline } from '../types/airlines.types';
+import { AirlineIcon } from '../../common/icons';
+import { Typography } from '../../common/typography';
+import { Airline } from '../types';
 
 export interface AirlineItemProps {
   airline: Airline;

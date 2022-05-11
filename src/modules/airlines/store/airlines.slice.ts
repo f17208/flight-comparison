@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Airline } from '../types/airlines.types';
+import { Airline } from '../types';
 import { RootState } from '../../../app.store';
 
 export type AirlinesState = {

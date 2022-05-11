@@ -1,9 +1,11 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
+
+import { FlightPathItem } from '../types';
+
 import { CURRENCY_SYMBOL } from '../../../utils/constants';
-import { ArrowForwardIcon, FlightIcon } from '../../common/icons/icons';
-import { Typography } from '../../common/typography/typography';
-import { FlightPathItem } from '../types/flights.types';
+import { ArrowForwardIcon, FlightIcon } from '../../common/icons';
+import { Typography } from '../../common/typography';
 
 export interface FlightItemProps {
   flight: FlightPathItem;

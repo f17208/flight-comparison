@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { FlightItem } from './flight-item';
-import { Typography } from '../../common/typography/typography';
-import { FlightPathItem } from '../types/flights.types';
+import { Typography } from '../../common/typography';
+import { FlightPathItem } from '../types';
 
 export interface FlightPathDetailsProps {
   path: FlightPathItem[];

@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Airport } from '../types/airports.types';
 import { RootState } from '../../../app.store';
+import { Airport } from '../types';
 
 export type AirportsState = {
   airports: Airport[];
