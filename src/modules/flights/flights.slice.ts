@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Flight } from './flights.types';
 import { RootState } from '../../app.store';
@@ -5,6 +6,8 @@ import { RootState } from '../../app.store';
 export type FlightsState = {
   allFlights: Flight[];
   foundFlights: Flight[];
+  allFlightsError?: AxiosError;
+  foundFlightsError?: AxiosError;
   loading: boolean;
   loadingAll: boolean;
 };
@@ -14,6 +17,8 @@ const initialState: FlightsState = {
   allFlights: [],
   loading: false,
   loadingAll: false,
+  allFlightsError: undefined,
+  foundFlightsError: undefined,
 };
 
 export const flightsSlice = createSlice({
@@ -25,6 +30,12 @@ export const flightsSlice = createSlice({
     },
     setAllFlights: (state, action: PayloadAction<Flight[]>) => {
       state.allFlights = action.payload;
+    },
+    setAllFlightsError: (state, action: PayloadAction<AxiosError | undefined>) => {
+      state.allFlightsError = action.payload;
+    },
+    setFoundFlightsError: (state, action: PayloadAction<AxiosError | undefined>) => {
+      state.foundFlightsError = action.payload;
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
@@ -42,6 +53,8 @@ export const flightsSlice = createSlice({
 export const {
   setFlights,
   setAllFlights,
+  setAllFlightsError,
+  setFoundFlightsError,
   setLoading,
   setAllFlightsLoading,
   reset,
@@ -50,6 +63,8 @@ export const {
 // selectors
 export const flightsSelector = (state: RootState) => state.Flights.foundFlights;
 export const allFlightsSelector = (state: RootState) => state.Flights.allFlights;
+export const foundFlightsErrorSelector = (state: RootState) => state.Flights.foundFlightsError;
+export const allFlightsErrorSelector = (state: RootState) => state.Flights.allFlightsError;
 export const loadingSelector = (state: RootState) => state.Flights.loading;
 export const loadingAllSelector = (state: RootState) => state.Flights.loadingAll;
 

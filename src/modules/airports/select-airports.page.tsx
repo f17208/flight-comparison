@@ -91,7 +91,7 @@ export function SelectAirportsPage() {
             variant="contained"
             color="info"
             disabled={!arrivalAirport || !departureAirport}
-            className="w-fit fill-neutral hover:fill-white"
+            className="w-fit fill-neutral hover:fill-white py-1"
             onClick={goToNextPage}
           >
             <Typography variant="h5">Search</Typography>

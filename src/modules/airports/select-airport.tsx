@@ -5,7 +5,7 @@ import { Input } from '../common/input/Input';
 import { AirportItem, AirportItemProps } from './airport-item';
 import { Airport } from './airports.types';
 import { ClearIcon } from '../common/icons';
-import { getAirportFullName } from '../../utils/airports';
+import { getAirportFullName } from './airports.utils';
 
 export interface SelectAirportProps {
   options: Airport[];

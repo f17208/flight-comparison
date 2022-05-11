@@ -20,7 +20,7 @@ import {
   flightsSelector,
   loadingSelector as flightsLoadingSelector,
 } from './flights.slice';
-import { calculateAlternativePaths, enrighFlightWithDetails, getFlightsPathDetails } from '../../utils/flights';
+import { calculateAlternativePaths, enrighFlightWithDetails, getFlightsPathDetails } from './flights.utils';
 import { FlightPathSummaryItem } from './flight-path-summary-item';
 import { airlinesSelector } from '../airlines/airlines.slice';
 import { FlightPathItem } from './flights.types';
@@ -107,11 +107,11 @@ export function SearchFlights() {
     <div className="flex flex-col space-y-2">
       <Link to="/" className="text-secondary flex items-center space-x-1">
         <ArrowBackIcon className="h-4 fill-secondary w-fit" />
-        <Typography variant="h5">Back</Typography>
+        <Typography variant="h5">Back to search</Typography>
       </Link>
 
       <Typography variant="h3">
-        Search Flights
+        Search results
       </Typography>
 
       <div className="flex justify-between">

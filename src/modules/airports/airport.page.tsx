@@ -13,7 +13,7 @@ import { AirportDetails } from './airport-details';
 import { FlightItem } from '../flights/flight-item';
 import { airlinesSelector } from '../airlines/airlines.slice';
 import { allFlightsSelector } from '../flights/flights.slice';
-import { enrighFlightWithDetails } from '../../utils/flights';
+import { enrighFlightWithDetails } from '../flights/flights.utils';
 import { FlightPathItem } from '../flights/flights.types';
 
 export function Airport() {

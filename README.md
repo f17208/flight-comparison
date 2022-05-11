@@ -12,9 +12,7 @@ All icons were made with [Affinity Designer](https://affinity.serif.com/it/desig
 
 `yarn start`: runs the app on localhost.
 
-`yarn test:e2e`: runs e2e tests only. Before running this script, there must be a running instance of the React app on localhost.
-
-`yarn test`: runs all tests but e2e. Does not require a running instance of the app.
+`yarn test`: runs all tests.
 
 ## Other scripts
 
