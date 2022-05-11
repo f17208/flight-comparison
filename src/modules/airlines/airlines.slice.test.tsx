@@ -1,8 +1,8 @@
 import { call, put } from '@redux-saga/core/effects';
-import { Airline } from '../components/airlines/airlines.types';
-import { getAirlines } from '../components/airlines/airlines.api';
-import { fetchAllAirlinesSaga } from '../components/airlines/airlines.saga';
-import { setAirlines, setLoading } from '../components/airlines/airlines.slice';
+import { Airline } from './airlines.types';
+import { getAirlines } from './airlines.api';
+import { fetchAllAirlinesSaga } from './airlines.saga';
+import { setAirlines, setLoading } from './airlines.slice';
 
 describe('Fetch all airlines', () => {
   it('saga flow should be correct', () => {

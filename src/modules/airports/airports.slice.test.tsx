@@ -1,8 +1,8 @@
 import { call, put } from '@redux-saga/core/effects';
-import { getAirports } from '../components/airports/airports.api';
-import { fetchAllAirportsSaga } from '../components/airports/airports.saga';
-import { setAirports, setLoading } from '../components/airports/airports.slice';
-import { Airport } from '../components/airports/airports.types';
+import { getAirports } from './airports.api';
+import { fetchAllAirportsSaga } from './airports.saga';
+import { setAirports, setLoading } from './airports.slice';
+import { Airport } from './airports.types';
 
 describe('Fetch all airports', () => {
   it('saga flow should be correct', () => {

@@ -2,22 +2,22 @@ import { Route, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDebounce } from 'react-use';
 
-import { Navbar } from './components/common/navbar/navbar';
+import { Navbar } from './modules/common/navbar/navbar';
 
-import { Airports } from './components/airports/airports.page';
-import { Airlines } from './components/airlines/airlines.page';
-import { SearchFlights } from './components/flights/search-flights.page';
-import { SelectAirportsPage } from './components/airports/select-airports.page';
-import { Airport } from './components/airports/airport.page';
-import { Airline } from './components/airlines/airline.page';
-import { Loader } from './components/common/loader/loader';
+import { Airports } from './modules/airports/airports.page';
+import { Airlines } from './modules/airlines/airlines.page';
+import { SearchFlights } from './modules/flights/search-flights.page';
+import { SelectAirportsPage } from './modules/airports/select-airports.page';
+import { Airport } from './modules/airports/airport.page';
+import { Airline } from './modules/airlines/airline.page';
+import { Loader } from './modules/common/loader/loader';
 
-import { sagaActions as airportsSaga } from './components/airports/airports.saga';
-import { sagaActions as airlinesSaga } from './components/airlines/airlines.saga';
-import { sagaActions as flightsSaga } from './components/flights/flights.saga';
-import { loadingSelector as airportsLoadingSelector } from './components/airports/airports.slice';
-import { loadingSelector as airlinesLoadingSelector } from './components/airlines/airlines.slice';
-import { loadingAllSelector } from './components/flights/flights.slice';
+import { sagaActions as airportsSaga } from './modules/airports/airports.saga';
+import { sagaActions as airlinesSaga } from './modules/airlines/airlines.saga';
+import { sagaActions as flightsSaga } from './modules/flights/flights.saga';
+import { loadingSelector as airportsLoadingSelector } from './modules/airports/airports.slice';
+import { loadingSelector as airlinesLoadingSelector } from './modules/airlines/airlines.slice';
+import { loadingAllSelector } from './modules/flights/flights.slice';
 
 import './App.css';
 

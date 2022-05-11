@@ -1,8 +1,8 @@
 import { call, put } from '@redux-saga/core/effects';
-import { getFlights, getSearchFlights } from '../components/flights/flights.api';
-import { fetchAllFlightsSaga, fetchSearchFlightsSaga } from '../components/flights/flights.saga';
-import { setAllFlights, setAllFlightsLoading, setFlights, setLoading } from '../components/flights/flights.slice';
-import { Flight } from '../components/flights/flights.types';
+import { getFlights, getSearchFlights } from './flights.api';
+import { fetchAllFlightsSaga, fetchSearchFlightsSaga } from './flights.saga';
+import { setAllFlights, setAllFlightsLoading, setFlights, setLoading } from './flights.slice';
+import { Flight } from './flights.types';
 
 describe('Fetch all flights', () => {
   it('saga flow should be correct', () => {
