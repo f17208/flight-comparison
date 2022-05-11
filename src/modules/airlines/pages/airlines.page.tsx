@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 import { airlinesSelector } from '../store';
@@ -9,11 +10,12 @@ import { PageSection } from '../../common/page-section';
 
 export function Airlines() {
   const airlines = useSelector(airlinesSelector);
+  const { t } = useTranslation();
 
   return <PageSection className="p-8">
     <div>
       <Typography className="text-neutral" variant="h3">
-        Airlines
+        {t('airlines')}
       </Typography>
       <ul>
         {

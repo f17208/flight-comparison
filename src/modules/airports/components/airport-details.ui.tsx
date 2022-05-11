@@ -1,4 +1,5 @@
 import { FC, useMemo } from 'react';
+
 import { Typography } from '../../common/typography';
 import { Airport } from '../types';
 import { getAirportDetailsFromIATA } from '../utils';
@@ -26,7 +27,7 @@ export const AirportDetails: FC<AirportDetailsProps> = ({
         {airportDetails.name}
       </Typography>
       <Typography className="text-neutral">
-        Location: {airportDetails.city}, {airportDetails.state}, {airportDetails.country}
+        {airportDetails.city}, {airportDetails.state}, {airportDetails.country}
       </Typography>
     </div>
   );

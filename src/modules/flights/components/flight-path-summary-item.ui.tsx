@@ -1,4 +1,6 @@
 import { FC, ReactNode, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { CURRENCY_SYMBOL } from '../../../utils/constants';
 import { getFlightsPathDetails } from '../utils';
 import { Typography } from '../../common/typography';
@@ -19,6 +21,8 @@ export const FlightPathSummaryItem: FC<FlightPathSummaryItemProps> = ({
     return getFlightsPathDetails(path);
   }, [path]);
 
+  const { t } = useTranslation();
+
   return (
     <div
       className={`
@@ -33,12 +37,10 @@ export const FlightPathSummaryItem: FC<FlightPathSummaryItemProps> = ({
           <Typography className="text-left w-full sm:w-fit">
             {
               path.length === 1
-                ? 'Single flight,'
-                : (path.length - 1 === 1)
-                  ? '1 stop over,'
-                  : `${path.length - 1} stop-overs,`
-            }{' '}
-            {airlines.length} {airlines.length === 1 ? 'airline' : 'airlines'}
+                ? t('single-flight')
+                : t('stop-over', { count: path.length - 1 })
+            }{', '}
+            {t('airline', { count: airlines.length })}
           </Typography>
         </div>
         <div className="flex items-center space-x-2 justify-between">

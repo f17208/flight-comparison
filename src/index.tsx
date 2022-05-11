@@ -12,6 +12,8 @@ import './index.css';
 import './tailwind.css';
 import 'leaflet/dist/leaflet.css';
 
+import './i18n';
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );

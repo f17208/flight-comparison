@@ -1,7 +1,9 @@
 import { FC, useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { useWindowSize } from 'react-use';
 import { HamburgerIcon } from '../icons';
+import { Link } from '../link';
 
 const customNavbarLinkClasses = `
   block
@@ -25,6 +27,8 @@ export const Navbar: FC<NavbarProps> = () => {
   useEffect(() => {
     setIsExpanded(false);
   }, [width, pathname, setIsExpanded]);
+
+  const { t, i18n } = useTranslation();
 
   return (
     <nav
@@ -65,13 +69,33 @@ export const Navbar: FC<NavbarProps> = () => {
           >
             <li className="w-full">
               <Link to="airports" className={customNavbarLinkClasses}>
-                Airports
+                {t('airports')}
               </Link>
             </li>
             <li className="w-full">
               <Link to="airlines" className={customNavbarLinkClasses}>
-                Airlines
+                {t('airlines')}
               </Link>
+            </li>
+            <li>
+              <select
+                onChange={e => i18n.changeLanguage(e.target.value)}
+                className="
+                  rounded-lg
+                  pl-1 py-1
+                  text-center text-white hover:text-primary
+                  font-extrabold
+                  bg-neutral
+                  outline-0
+                "
+              >
+                <option value="it">
+                  🇮🇹 ITA
+                </option>
+                <option value="en">
+                  🇬🇧 ENG
+                </option>
+              </select>
             </li>
           </ul>
         </div>

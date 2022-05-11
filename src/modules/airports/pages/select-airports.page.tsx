@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import { Airport } from '../types';
 import {
@@ -20,9 +21,10 @@ import { PageSection } from '../../common/page-section';
 import { Typography } from '../../common/typography';
 import { ChevronRightIcon, SwapIcon } from '../../common/icons';
 
-export function SelectAirportsPage() {
+export function SelectAirports() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const allAirports = useSelector(airportsSelector);
   const departureAirport = useSelector(departureAirportSelector);
@@ -57,31 +59,31 @@ export function SelectAirportsPage() {
   return <PageSection className="max-w-xl">
     <div className="flex flex-col space-y-2">
       <Typography variant="h3">
-        Search Flights
+        {t('search-flights')}
       </Typography>
 
       <div className="flex flex-col space-y-3">
         <AirportField
-          label="Departing from"
+          label={t('departing-from')}
           value={departureAirport}
           inputClassName="w-full"
           labelClassName="w-1/2 md:w-1/2 lg:w-2/3 min-w-fit"
           inputProps={{
             readOnly: true,
             onClick: () => departureDialog.setIsDialogOpen(true),
-            placeholder: 'Select an airport...',
+            placeholder: t('select-airport'),
           }}
         />
 
         <AirportField
-          label="Arriving to"
+          label={t('arriving-to')}
           value={arrivalAirport}
           inputClassName="w-full"
           labelClassName="w-1/2 md:w-1/2 lg:w-2/3 min-w-fit"
           inputProps={{
             readOnly: true,
             onClick: () => arrivalDialog.setIsDialogOpen(true),
-            placeholder: 'Select an airport...',
+            placeholder: t('select-airport'),
           }}
         />
 
@@ -91,7 +93,7 @@ export function SelectAirportsPage() {
             onClick={() => dispatch(swapDepartureAndArrivalAirports())}
             disabled={!arrivalAirport && !departureAirport}
           >
-            <Typography variant="h5">Swap</Typography>
+            <Typography variant="h5">{t('swap')}</Typography>
             <SwapIcon className="h-4 fill-inherit text-inherit w-fit" />
           </Button>
 
@@ -102,7 +104,7 @@ export function SelectAirportsPage() {
             className="w-fit py-1"
             onClick={goToNextPage}
           >
-            <Typography variant="h5">Search</Typography>
+            <Typography variant="h5">{t('search')}</Typography>
             <ChevronRightIcon className="h-4 fill-inherit w-fit" />
           </Button>
         </div>
@@ -116,7 +118,7 @@ export function SelectAirportsPage() {
         selectedAirport={departureAirport}
         dialogProps={{
           open: departureDialog.isDialogOpen,
-          title: 'Select departure airport',
+          title: t('select-departure-airport'),
           onClose: departureDialog.onCloseDialog,
         }}
       />
@@ -128,7 +130,7 @@ export function SelectAirportsPage() {
         selectedAirport={arrivalAirport}
         dialogProps={{
           open: arrivalDialog.isDialogOpen,
-          title: 'Select arrival airport',
+          title: t('select-arrival-airport'),
           onClose: arrivalDialog.onCloseDialog,
         }}
       />

@@ -13,12 +13,12 @@ import {
   TileLayer,
   useMap,
 } from 'react-leaflet';
-import { Link } from 'react-router-dom';
 
 import { MarkerIcon } from '../../common/icons';
 import { FlightPathItem } from '../types';
-import { DEBUG_MAP } from '../../../utils/constants';
+import { DEBUG_MAP, ENABLE_MAP_SCROLL_ZOOM } from '../../../utils/constants';
 import { AirportDetails } from '../../airports/components';
+import { Link } from '../../common/link';
 
 interface BoundPolylineProps {
   polyline: LatLngTuple[];
@@ -116,6 +116,7 @@ export const FlightPathMap: FC<FlightPathMapProps> = ({
     <MapContainer
       style={{ width: '100%', height: '40vh' }}
       center={mapCenter}
+      scrollWheelZoom={ENABLE_MAP_SCROLL_ZOOM}
     >
       <BoundPolyline polyline={polyline} debug={DEBUG_MAP} />
       <TileLayer
@@ -142,8 +143,8 @@ export const FlightPathMap: FC<FlightPathMapProps> = ({
               <Popup>
                 <Link to={`/airports/${flight.departureAirportId}`}>
                   <strong>{flight.departureAirport?.codeIata}</strong>
-                  <AirportDetails airport={flight.departureAirport} />
                 </Link>
+                <AirportDetails airport={flight.departureAirport} />
               </Popup>
             </Marker>,
           ];

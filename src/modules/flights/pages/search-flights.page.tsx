@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useDebounce } from 'react-use';
+import { useTranslation } from 'react-i18next';
 
 import { useEffect, useMemo, useState } from 'react';
 
@@ -30,10 +31,11 @@ import {
 } from '../../airports/store';
 
 import { ArrowBackIcon, ViewMoreIcon } from '../../common/icons';
-import { PageSection } from '../../common/page-section';
+import { PageSection } from '../../common/page-section/page-section.ui';
 import { Typography } from '../../common/typography';
 import { Button } from '../../common/button';
 import { Loader } from '../../common/loader';
+import { Link } from '../../common/link';
 
 import { airlinesSelector } from '../../airlines/store';
 
@@ -108,6 +110,8 @@ export function SearchFlights() {
     });
   }, [fullFlightsPaths, setSelectedPathIndex]);
 
+  const { t } = useTranslation();
+
   if (!departureAirport || !arrivalAirport || !fullFlightsPaths.length) {
     return <Loader />;
   }
@@ -116,17 +120,17 @@ export function SearchFlights() {
     <div className="flex flex-col space-y-2">
       <Link to="/" className="text-secondary flex items-center space-x-1">
         <ArrowBackIcon className="h-4 fill-secondary w-fit" />
-        <Typography variant="h5">Back to search</Typography>
+        <Typography variant="h5">{t('back-to-search')}</Typography>
       </Link>
 
       <Typography variant="h3">
-        Search results
+        {t('search-results')}
       </Typography>
 
       <div className="flex justify-between">
         <div>
           <Typography variant="h4">
-            {' from '}
+            {t('from')}{' '}
             <Link
               style={{ pointerEvents: departureAirport ? 'inherit' : 'none' }}
               to={`/airports/${departureAirport?.id}`}
@@ -134,7 +138,7 @@ export function SearchFlights() {
             >
               {departureCode}
             </Link>
-            {' to '}
+            {' '}{t('to')}{' '}
             <Link
               style={{ pointerEvents: arrivalAirport ? 'inherit' : 'none' }}
               to={`/airports/${arrivalAirport?.id}`}
@@ -146,11 +150,7 @@ export function SearchFlights() {
         </div>
         {fullFlightsPaths.length > 0 && (
           <Typography variant="h5" className="mt-auto">
-            {fullFlightsPaths.length} possible {
-              fullFlightsPaths.length === 1
-                ? 'route'
-                : 'routes'
-            }
+            {fullFlightsPaths.length} {t('possible-route', { count: fullFlightsPaths.length })}
           </Typography>
         )}
       </div>
@@ -186,7 +186,7 @@ export function SearchFlights() {
                             onClick={() => setSelectedPathIndex(i)}
                           >
                             <ViewMoreIcon className="fill-inherit h-6 w-fit" />
-                            <Typography className="font-extrabold">view</Typography>
+                            <Typography className="font-extrabold">{t('view')}</Typography>
                           </Button>
                         </div>
                       )
@@ -216,7 +216,7 @@ export function SearchFlights() {
 
               <div className="mt-4 flex justify-end space-x-3 items-center p-2 bg-slate-200">
                 <Typography variant="subtitle2">
-                  Total: <strong>
+                  {t('total')}: <strong>
                     {getFlightsPathDetails(fullFlightsPaths[selectedPathIndex]).totalPrice}
                     {' '}{CURRENCY_SYMBOL}
                   </strong>
@@ -228,9 +228,9 @@ export function SearchFlights() {
                     ml-auto
                     px-3
                   "
-                  onClick={() => alert('Sorry, not implemented :)')}
+                  onClick={() => alert(t('not-implemented'))}
                 >
-                  <Typography className="font-extrabold">Book now</Typography>
+                  <Typography className="font-extrabold">{t('book-now')}</Typography>
                 </Button>
               </div>
             </div>

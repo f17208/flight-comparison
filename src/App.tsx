@@ -8,7 +8,7 @@ import { Loader } from './modules/common/loader';
 import { Airports } from './modules/airports/pages/airports.page';
 import { Airlines } from './modules/airlines/pages/airlines.page';
 import { SearchFlights } from './modules/flights/pages/search-flights.page';
-import { SelectAirportsPage } from './modules/airports/pages/select-airports.page';
+import { SelectAirports } from './modules/airports/pages/select-airports.page';
 import { Airport } from './modules/airports/pages/airport.page';
 import { Airline } from './modules/airlines/pages/airline.page';
 
@@ -51,7 +51,7 @@ function App() {
           ? <Loader />
           : (
             <Routes>
-              <Route path="/" element={<SelectAirportsPage />} />
+              <Route path="/" element={<SelectAirports />} />
               <Route path="/flights/from/:departureCode/to/:arrivalCode" element={<SearchFlights />} />
 
               <Route path="/airports" element={<Airports />} />

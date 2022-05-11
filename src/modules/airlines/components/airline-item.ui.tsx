@@ -1,4 +1,6 @@
 import { FC, MouseEvent } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { AirlineIcon } from '../../common/icons';
 import { Typography } from '../../common/typography';
 import { Airline } from '../types';
@@ -20,6 +22,7 @@ export const AirlineItem: FC<AirlineItemProps> = ({
   showIata = true,
   className,
 }) => {
+  const { t } = useTranslation();
   return (
     <button
       type="button"
@@ -42,7 +45,7 @@ export const AirlineItem: FC<AirlineItemProps> = ({
           {airline.name} {airline.logoFilename}
         </Typography>
         <Typography className={`text-left ${showIata ? '' : 'hidden'}`}>
-          IATA prefix: {airline.codeIataPrefix || 'n/a'}
+          {t('iata-prefix')}: {airline.codeIataPrefix || t('n-a')}
         </Typography>
       </div>
     </button>

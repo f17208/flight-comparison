@@ -1,5 +1,6 @@
 import { Dispatch, FC, SetStateAction, useMemo } from 'react';
 import { compareTwoStrings } from 'string-similarity';
+import { useTranslation } from 'react-i18next';
 
 import { AirportItem, AirportItemProps } from './airport-item.ui';
 
@@ -123,9 +124,10 @@ export const SelectAirportDialog: FC<SelectAirportDialogProps> = ({
   onSelect,
   ...props
 }) => {
+  const { t } = useTranslation();
   return (
     <Dialog
-      title={title || 'Select Airport'}
+      title={title || t('select-airport')}
       {...otherDialogProps}
       open={open}
       onClose={onClose}
