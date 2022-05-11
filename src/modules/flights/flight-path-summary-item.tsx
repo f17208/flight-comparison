@@ -1,6 +1,6 @@
 import { FC, ReactNode, useMemo } from 'react';
 import { CURRENCY_SYMBOL } from '../../utils/constants';
-import { getFlightsPathDetails } from '../../utils/flights';
+import { getFlightsPathDetails } from './flights.utils';
 import { Typography } from '../common/typography/Typography';
 import { FlightPathItem } from './flights.types';
 

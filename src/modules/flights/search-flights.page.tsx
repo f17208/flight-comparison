@@ -20,7 +20,7 @@ import {
   flightsSelector,
   loadingSelector as flightsLoadingSelector,
 } from './flights.slice';
-import { calculateAlternativePaths, enrighFlightWithDetails, getFlightsPathDetails } from '../../utils/flights';
+import { calculateAlternativePaths, enrighFlightWithDetails, getFlightsPathDetails } from './flights.utils';
 import { FlightPathSummaryItem } from './flight-path-summary-item';
 import { airlinesSelector } from '../airlines/airlines.slice';
 import { FlightPathItem } from './flights.types';

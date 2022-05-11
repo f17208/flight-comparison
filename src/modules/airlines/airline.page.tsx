@@ -18,7 +18,7 @@ import {
 } from '../flights/flights.slice';
 
 import { Loader } from '../common/loader/loader';
-import { enrighFlightWithDetails } from '../../utils/flights';
+import { enrighFlightWithDetails } from '../flights/flights.utils';
 import { FlightItem } from '../flights/flight-item';
 import { FlightPathItem } from '../flights/flights.types';
 
