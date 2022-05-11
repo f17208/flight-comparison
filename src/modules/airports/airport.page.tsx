@@ -56,7 +56,7 @@ export function Airport() {
 
       <div className="mb-4">
         <MapContainer
-          style={{ width: '100%', height: '60vh' }}
+          style={{ width: '100%', height: '40vh' }}
           center={airportCoordinates}
           zoom={DEFAULT_MAP_ZOOM}
         >
