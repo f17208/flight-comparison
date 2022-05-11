@@ -8,7 +8,7 @@ import { airportsSelector } from '../store';
 
 import { Typography } from '../../common/typography';
 import { PageSection } from '../../common/layout';
-import { MarkerIcon } from '../../common/icons/icons';
+import { MarkerIcon } from '../../common/icons';
 
 import { AirportDetails } from '../components';
 import { FlightItem } from '../../flights/components';
