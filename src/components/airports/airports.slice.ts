@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Airport } from './airports.types';
 import { RootState } from '../../app.store';
@@ -5,9 +6,9 @@ import { RootState } from '../../app.store';
 export type AirportsState = {
   airports: Airport[];
   loading: boolean;
-
   departureAirport: Airport | null;
   arrivalAirport: Airport | null;
+  error?: AxiosError;
 };
 
 const initialState: AirportsState = {
@@ -15,6 +16,7 @@ const initialState: AirportsState = {
   loading: false,
   departureAirport: null,
   arrivalAirport: null,
+  error: undefined,
 };
 
 export const airportsSlice = createSlice({
@@ -23,6 +25,9 @@ export const airportsSlice = createSlice({
   reducers: {
     setAirports: (state, action: PayloadAction<Airport[]>) => {
       state.airports = action.payload;
+    },
+    setError: (state, action: PayloadAction<AxiosError>) => {
+      state.error = action.payload;
     },
     setDepartureAirport: (state, action: PayloadAction<Airport | null>) => {
       state.departureAirport = action.payload;
@@ -42,6 +47,7 @@ export const airportsSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   setAirports,
+  setError,
   setLoading,
   setDepartureAirport,
   setArrivalAirport,
@@ -51,6 +57,7 @@ export const {
 // selectors
 export const airportsSelector = (state: RootState) => state.Airports.airports;
 export const loadingSelector = (state: RootState) => state.Airports.loading;
+export const errorSelector = (state: RootState) => state.Airports.error;
 
 export const departureAirportSelector = (state: RootState) => state.Airports.departureAirport;
 export const arrivalAirportSelector = (state: RootState) => state.Airports.arrivalAirport;

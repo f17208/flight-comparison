@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Airline } from './airlines.types';
 import { RootState } from '../../app.store';
@@ -5,11 +6,13 @@ import { RootState } from '../../app.store';
 export type AirlinesState = {
   airlines: Airline[];
   loading: boolean;
+  error?: AxiosError;
 };
 
 const initialState: AirlinesState = {
   airlines: [],
   loading: false,
+  error: undefined,
 };
 
 export const airlinesSlice = createSlice({
@@ -18,6 +21,9 @@ export const airlinesSlice = createSlice({
   reducers: {
     setAirlines: (state, action: PayloadAction<Airline[]>) => {
       state.airlines = action.payload;
+    },
+    setError: (state, action: PayloadAction<AxiosError | undefined>) => {
+      state.error = action.payload;
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
@@ -31,6 +37,7 @@ export const airlinesSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   setAirlines,
+  setError,
   setLoading,
   reset,
 } = airlinesSlice.actions;
@@ -38,5 +45,6 @@ export const {
 // selectors
 export const airlinesSelector = (state: RootState) => state.Airlines.airlines;
 export const loadingSelector = (state: RootState) => state.Airlines.loading;
+export const errorSelector = (state: RootState) => state.Airlines.error;
 
 export default airlinesSlice.reducer;

@@ -1,7 +1,8 @@
-import { AxiosResponse } from 'axios';
+import { AxiosError } from 'axios';
 import { call, takeEvery, put } from 'redux-saga/effects';
 import { getAirlines } from './airlines.api';
-import { setAirlines, setLoading } from './airlines.slice';
+import { setAirlines, setError, setLoading } from './airlines.slice';
+import { Airline } from './airlines.types';
 
 export const sagaActions = {
   FETCH_ALL_AIRLINES: 'FETCH_ALL_AIRLINES',
@@ -9,8 +10,20 @@ export const sagaActions = {
 
 export function* fetchAllAirlinesSaga() {
   yield put(setLoading(true));
-  const result: AxiosResponse = yield call(getAirlines);
-  yield put(setAirlines(result.data.data));
+  const {
+    data,
+    error,
+  }: {
+    data?: Airline[],
+    error?: AxiosError,
+  } = yield call(getAirlines);
+
+  if (error) {
+    yield put(setError(error));
+  }
+  if (data) {
+    yield put(setAirlines(data));
+  }
   yield put(setLoading(false));
 }
 

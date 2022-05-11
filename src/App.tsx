@@ -39,7 +39,9 @@ function App() {
     [],
   );
 
-  const loading = airportsLoading || airlinesLoading || flightsLoading;
+  const loading = airportsLoading
+    || airlinesLoading
+    || flightsLoading;
 
   return (
     <div className="h-full">

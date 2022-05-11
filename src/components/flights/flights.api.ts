@@ -1,9 +1,13 @@
-import { fetchJSONEndpoint } from '../../utils/api';
+import { client } from '../../utils/api';
 
 export function getFlights() {
-  return fetchJSONEndpoint('/flights/all');
+  return client.get('/flights/all')
+    .then(({ data: { data } }) => ({ data }))
+    .catch(error => ({ error }));
 }
 
 export function getSearchFlights(departureCode: string, arrivalCode: string) {
-  return fetchJSONEndpoint(`/flights/from/${departureCode}/to/${arrivalCode}`);
+  return client.get(`/flights/from/${departureCode}/to/${arrivalCode}`)
+    .then(({ data: { data } }) => ({ data }))
+    .catch(error => ({ error }));
 }

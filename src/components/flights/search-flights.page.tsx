@@ -107,11 +107,11 @@ export function SearchFlights() {
     <div className="flex flex-col space-y-2">
       <Link to="/" className="text-secondary flex items-center space-x-1">
         <ArrowBackIcon className="h-4 fill-secondary w-fit" />
-        <Typography variant="h5">Back</Typography>
+        <Typography variant="h5">Back to search</Typography>
       </Link>
 
       <Typography variant="h3">
-        Search Flights
+        Search results
       </Typography>
 
       <div className="flex justify-between">

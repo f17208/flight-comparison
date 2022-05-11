@@ -1,5 +1,7 @@
-import { fetchJSONEndpoint } from '../../utils/api';
+import { client } from '../../utils/api';
 
 export function getAirports() {
-  return fetchJSONEndpoint('/airports/all');
+  return client.get('/airports/all')
+    .then(({ data: { data } }) => ({ data }))
+    .catch(error => ({ error }));
 }
