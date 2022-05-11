@@ -5,7 +5,7 @@ import { airlinesSelector } from '../store';
 import { AirlineItem } from '../components';
 
 import { Typography } from '../../common/typography';
-import { PageSection } from '../../common/layout';
+import { PageSection } from '../../common/layouts';
 
 export function Airlines() {
   const airlines = useSelector(airlinesSelector);
