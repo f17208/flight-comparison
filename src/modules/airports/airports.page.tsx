@@ -116,7 +116,7 @@ export function Airports() {
       </Typography>
 
       <MapContainer
-        style={{ width: '100%', height: '40vh' }}
+        style={{ width: '100%', height: '60vh' }}
         center={mapCenter}
         zoom={DEFAULT_MAP_ZOOM}
       >

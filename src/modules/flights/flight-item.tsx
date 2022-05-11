@@ -15,8 +15,8 @@ export const FlightItem: FC<FlightItemProps> = ({ flight, divider, className }) 
   return (
     <div
       className={`
-        flex items-center space-x-1
-        ${divider ? 'border border-t-0 border-x-0 py-1' : ''}
+        flex items-center space-x-1 py-1
+        ${divider ? 'border border-t-0 border-x-0' : ''}
         ${className || ''}
       `}
     >

@@ -116,8 +116,6 @@ export const FlightPathMap: FC<FlightPathMapProps> = ({
     <MapContainer
       style={{ width: '100%', height: '40vh' }}
       center={mapCenter}
-      scrollWheelZoom={false}
-      zoom={11}
     >
       <BoundPolyline polyline={polyline} debug={DEBUG_MAP} />
       <TileLayer

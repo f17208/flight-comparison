@@ -54,12 +54,11 @@ export function Airport() {
         <AirportDetails airport={airport} className="mb-4" />
       )}
 
-      <div className="mb-8">
+      <div className="mb-4">
         <MapContainer
           style={{ width: '100%', height: '60vh' }}
           center={airportCoordinates}
           zoom={DEFAULT_MAP_ZOOM}
-          scrollWheelZoom={false}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -79,14 +78,24 @@ export function Airport() {
         </MapContainer>
       </div>
 
-      <div className="flex flex-col sm:flex-row space-x-8 sm:justify-evenly">
+      <div
+        className="
+          flex flex-col sm:flex-row
+          space-y-4 sm:space-y-0
+          sm:space-x-8 sm:justify-evenly
+        "
+      >
         <div>
           <Typography variant="h4" className="mt-3 text-neutral">
             Flights departing
           </Typography>
           {
-            airportFullFlightsDeparting.map(flight => {
-              return <FlightItem key={flight.id} flight={flight} divider />;
+            airportFullFlightsDeparting.map((flight, i) => {
+              return <FlightItem
+                key={flight.id}
+                flight={flight}
+                divider={i !== airportFullFlightsDeparting.length - 1}
+              />;
             })
           }
         </div>
