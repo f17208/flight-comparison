@@ -54,7 +54,7 @@ export function SelectAirportsPage() {
     navigate(`flights/from/${departureAirport.codeIata}/to/${arrivalAirport.codeIata}`);
   }, [navigate, arrivalAirport, departureAirport]);
 
-  return <PageSection>
+  return <PageSection className="max-w-xl">
     <div className="flex flex-col space-y-2">
       <Typography variant="h3">
         Search Flights
